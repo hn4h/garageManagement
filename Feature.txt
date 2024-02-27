@@ -11,5 +11,5 @@ Quan ly nha xe
 	+ add/remove car
 	+ add/remove driver
 	+ Tính bonus
-- Driver:
-- Cars:
+- Driver: 
+- Cars: 48, 32, 16
