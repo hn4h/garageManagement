@@ -1,0 +1,15 @@
+Quan ly nha xe 
+- Feature:
+	+ Phân chia lịch chạy xe
+	+ Tính lương nhân viên
+	- Tính doanh thu
+	+ Tính lương sau thuế
+	+ Lương chạy ngoài giờ
+	+ Phân loại xe
+	+ Tình trạng xe
+	+ Thông tin xe
+	+ add/remove car
+	+ add/remove driver
+	+ Tính bonus
+- Driver:
+- Cars:
