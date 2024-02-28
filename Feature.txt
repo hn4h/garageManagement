@@ -2,7 +2,6 @@ Quan ly nha xe
 - Feature:
 	+ Phân chia lịch chạy xe
 	+ Tính lương nhân viên
-	- Tính doanh thu
 	+ Tính lương sau thuế
 	+ Lương chạy ngoài giờ
 	+ Phân loại xe
@@ -13,3 +12,4 @@ Quan ly nha xe
 	+ Tính bonus
 - Driver: 
 - Cars: 48, 32, 16
+
