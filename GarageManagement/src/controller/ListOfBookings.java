@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -22,16 +23,20 @@ public class ListOfBookings extends ListController<Booking> {
         lcus = new ListOfCustomers();
         lcar = new ListOfCars();
         filepath = "src/List/ListOfBookings";
+        this.readData();
+    }
+    public void readData(){
+        list.clear();
         try {
             scanner = new Scanner(new File(filepath));
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 String data[] = line.split("\\|");
                 Customer addedCustomer = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(data[5])).collect(Collectors.toList()).get(0);
-                Driver addedDriver = ldrivers.getList().stream().filter(d -> d.getId() == data[6]).collect(Collectors.toList()).get(0);
-                Car addedCar = lcar.getList().stream().filter(c -> c.getNumberPlates() == data[7]).collect(Collectors.toList()).get(0);
+                Driver addedDriver = ldrivers.getList().stream().filter(d -> d.getId().equals(data[6])).collect(Collectors.toList()).get(0);
+                Car addedCar = lcar.getList().stream().filter(c -> c.getNumberPlates().equals(data[7])).collect(Collectors.toList()).get(0);
                 list.add(new Booking(Integer.parseInt(data[0]), data[1], data[2],data[3], Integer.parseInt(data[4]),
-                    addedCustomer,addedDriver, addedCar, data[8], data[9]));
+                        addedCustomer,addedDriver, addedCar, data[8], data[9]));
             }
             scanner.close();
         }catch (FileNotFoundException e){
@@ -47,13 +52,13 @@ public class ListOfBookings extends ListController<Booking> {
             FileWriter writer = new FileWriter(filepath, true);
             scanner = new Scanner(new File(filepath));
             if(!scanner.hasNextLine()){
-                writer.write(this.getList().size() + "|" + item.getDate() + "|"
+                writer.write((this.getList().size() + 1) + "|" + item.getDate() + "|"
                         + item.getStart() + "|" + item.getDestination() + "|" + item.getDistance() + "|" +
                         item.getCustomer().getId() + "|" + item.getDriver().getId() + "|" +
                         item.getCar().getNumberPlates() + "|" + item.getIsDeposit() + "|" + item.getStatus());
             }
             else{
-                writer.write("\n" + this.getList().size() + "|" + item.getDate() + "|"
+                writer.write("\n" + (this.getList().size() + 1) + "|" + item.getDate() + "|"
                         + item.getStart() + "|" + item.getDestination() + "|" + item.getDistance() + "|" +
                         item.getCustomer().getId() + "|" + item.getDriver().getId() + "|" +
                         item.getCar().getNumberPlates() + "|" + item.getIsDeposit() + "|" + item.getStatus());
@@ -72,8 +77,8 @@ public class ListOfBookings extends ListController<Booking> {
     }
 
     @Override
-    public void removeItem(int index) {
-        super.removeItem(index);
+    public void removeItem(Booking item) {
+        super.removeItem(item);
         this.rewriteData();
     }
 
@@ -90,5 +95,15 @@ public class ListOfBookings extends ListController<Booking> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ArrayList<Booking> getList() {
+        this.readData();
+        return super.getList();
+    }
+    public void clearData(){
+        list.clear();
+        this.rewriteData();
     }
 }

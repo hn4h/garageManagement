@@ -22,12 +22,13 @@ public abstract class ListController<T> {
             list.set(index,item);
     }
 
-    public void removeItem(int index) {
-        list.remove(index);
+    public void removeItem(T item) {
+        list.remove(item);
     }
 
 
     public ArrayList<T> getList() {
+
         return list;
     }
 }

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ListOfDrivers extends ListController<Driver> {
@@ -13,6 +14,10 @@ public class ListOfDrivers extends ListController<Driver> {
         public ListOfDrivers(){
             super();
             filepath = "src/List/ListOfDrivers";
+            this.readData();
+        }
+
+        public void readData(){
             try {
                 scanner = new Scanner(new File(filepath));
                 while(scanner.hasNextLine()){
@@ -26,7 +31,6 @@ public class ListOfDrivers extends ListController<Driver> {
                 e.printStackTrace();
             }
         }
-
     @Override
     public void addItem(Driver item) {
         super.addItem(item);
@@ -57,7 +61,7 @@ public class ListOfDrivers extends ListController<Driver> {
     }
 
     @Override
-    public void removeItem(int index) {
+    public void removeItem(Driver index) {
         super.removeItem(index);
         this.rewriteData();
     }
@@ -73,5 +77,11 @@ public class ListOfDrivers extends ListController<Driver> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ArrayList<Driver> getList() {
+            this.readData();
+        return super.getList();
     }
 }

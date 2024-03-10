@@ -7,12 +7,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ListOfCars extends ListController<Car>{
     public ListOfCars(){
         super();
         filepath = "src/List/ListOfCars";
+        this.readData();
+    }
+    public void readData(){
         try {
             scanner = new Scanner(new File(filepath));
             while(scanner.hasNextLine()){
@@ -26,7 +30,6 @@ public class ListOfCars extends ListController<Car>{
             e.printStackTrace();
         }
     }
-
     @Override
     public void addItem(Car item) {
         super.addItem(item);
@@ -56,8 +59,8 @@ public class ListOfCars extends ListController<Car>{
     }
 
     @Override
-    public void removeItem(int index) {
-        super.removeItem(index);
+    public void removeItem(Car item) {
+        super.removeItem(item);
         this.rewriteData();
     }
     private void rewriteData(){
@@ -72,5 +75,11 @@ public class ListOfCars extends ListController<Car>{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ArrayList<Car> getList() {
+        this.readData();
+        return super.getList();
     }
 }
