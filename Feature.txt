@@ -10,6 +10,10 @@ Quan ly nha xe
 	+ add/remove car
 	+ add/remove driver
 	+ Tính bonus
-- Driver: 
+- Driver: r
+ID, name, DOB, quê, sđt, 
 - Cars: 48, 32, 16
+ biển số, loại xe, lịch bảo dưỡng, hãng xe, năm sx, tình trạng
+
+
 
