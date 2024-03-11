@@ -235,7 +235,16 @@ public class GarageManagement implements ActionListener {
         screen.showListCustomers();
     }
     public void updateCustomer(){
-
+        lcus.list.clear();
+        for (int i = 0; i < screen.table.getRowCount(); i++) {
+            String[] row = new String[screen.table.getColumnCount()];
+            for (int j = 0; j < screen.table.getColumnCount(); j++) {
+                row[j] = String.valueOf(screen.table.getValueAt(i, j));
+            }
+            lcus.list.add(new Customer(Integer.parseInt(row[0]), row[1], row[2]));
+        }
+        lcus.rewriteData();
+        screen.showListCustomers();
     }
     public void removeCustomer(){
 

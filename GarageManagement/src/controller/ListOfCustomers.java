@@ -67,7 +67,7 @@ public class ListOfCustomers extends ListController<Customer> {
         this.rewriteData();
     }
 
-    private void rewriteData(){
+    public void rewriteData(){
         try {
             FileWriter writer = new FileWriter(filepath);
             for(Customer i : list){
