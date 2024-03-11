@@ -182,7 +182,17 @@ public class GarageManagement implements ActionListener {
         screen.showListDrivers();
     }
     public void updateDriver(){
-
+        ldrivers.list.clear();
+        for (int i = 0; i < screen.table.getRowCount(); i++) {
+            String[] row = new String[screen.table.getColumnCount()];
+            for (int j = 0; j < screen.table.getColumnCount(); j++) {
+                row[j] = String.valueOf(screen.table.getValueAt(i, j));
+            }
+            ldrivers.list.add(new Driver(row[1], row[2], row[3], row[4], row[5], row[6],
+                    row[7], Double.parseDouble(row[8]) ));
+        }
+        ldrivers.rewriteData();
+        screen.showListCars();
     }
     public void removeDriver(){
 

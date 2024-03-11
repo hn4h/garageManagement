@@ -67,7 +67,7 @@ public class ListOfDrivers extends ListController<Driver> {
         super.removeItem(index);
         this.rewriteData();
     }
-    private void rewriteData(){
+    public void rewriteData(){
         try {
             FileWriter writer = new FileWriter(filepath);
             for(Driver i : list){
