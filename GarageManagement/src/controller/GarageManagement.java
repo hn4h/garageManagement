@@ -195,7 +195,10 @@ public class GarageManagement implements ActionListener {
         screen.showListCars();
     }
     public void removeDriver(){
-
+        String id = JOptionPane.showInputDialog(null,"Enter ID of removed Driver:");
+        Driver driver = ldrivers.getList().stream().filter(d -> d.getId().equals(id)).collect(Collectors.toList()).get(0);
+        ldrivers.removeItem(driver);
+        screen.showListDrivers();
     }
     public void searchDriver(){
 
