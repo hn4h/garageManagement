@@ -1,11 +1,13 @@
 package controller;
 
+import com.sun.org.apache.xerces.internal.impl.xs.models.XSCMValidator;
+import com.sun.xml.internal.ws.developer.MemberSubmissionAddressing;
 import model.Booking;
 import model.Car;
 import model.Customer;
 import model.Driver;
+import view.Handle;
 import view.Screen;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -198,6 +200,11 @@ public class GarageManagement implements ActionListener {
             for (int j = 0; j < screen.table.getColumnCount(); j++) {
                 row[j] = String.valueOf(screen.table.getValueAt(i, j));
             }
+            try {
+                Double.parseDouble(row[8]);
+            }catch (NumberFormatException e){
+                System.out.println("Invalid format");
+            }
             ldrivers.list.add(new Driver(row[1], row[2], row[3], row[4], row[5], row[6],
                     row[7], Double.parseDouble(row[8]) ));
         }
@@ -230,7 +237,15 @@ public class GarageManagement implements ActionListener {
     }
     public void addCustomer(){
         String name = JOptionPane.showInputDialog(null, "Enter Name of Customer:");
+        while(!Handle.handleName(name)){
+            screen.alert();
+            name = JOptionPane.showInputDialog(null, "Enter Name of Customer:");
+        }
         String phoneNumber = JOptionPane.showInputDialog(null, "Enter Phone Number of Customer:");
+        while (!Handle.handlePhoneNumber(phoneNumber)){
+            screen.alert();
+            phoneNumber = JOptionPane.showInputDialog(null, "Enter Phone Number of Customer:");
+        }
         lcus.addItem(new Customer(lcus.getNextID(), name, phoneNumber));
         screen.showListCustomers();
     }

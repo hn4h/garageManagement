@@ -1,29 +1,27 @@
-/*
+package view;/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
 
-import javax.swing.*;
+import view.Screen;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Formatter;
 
 
 /**
  *
  * @author AD
  */
-public class Validator {
-
+public class Handle {
 
 
 //Driver
     public static boolean handleIdPerson(String id){
         if( !id.matches("[0-9]") || id.length()!= 12){
             return false;
-            
         }
         else return true;
     }
@@ -47,17 +45,17 @@ public class Validator {
         return flag;
     }
 
-    public static boolean setSalary(double salary) {
-        if(salary <= 0) {
+    public static boolean handleSalary(double salary) {
+        if(salary < 0) {
             return false;
         }
         return true;
     }
 
-    public static boolean handleDOB(String dob) {
+    public static boolean handledate(String date) {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDateTime date = LocalDateTime.parse(dob, formatter);
+            LocalDateTime dateL = LocalDateTime.parse(date, formatter);
             return true;
         } catch(DateTimeParseException e) {
             System.out.println("Wrong format Date, please reEnter date: ");
@@ -71,7 +69,9 @@ public class Validator {
                 return true;
             case "available":
                 return true;
-            case "pending":
+            case "Available":
+                return true;
+            case "Unavailable":
                 return true;
             default:
                 return false;

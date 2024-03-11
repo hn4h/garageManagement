@@ -372,4 +372,7 @@ public class Screen extends JFrame implements ActionListener {
             this.showListCustomers();
         }
     }
+    public void alert(){
+        JOptionPane.showMessageDialog(this,"Invalid Data","Alert",JOptionPane.WARNING_MESSAGE);
+    }
 }
