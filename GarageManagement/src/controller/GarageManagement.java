@@ -40,15 +40,15 @@ public class GarageManagement implements ActionListener {
         } else if (cm.equals("Show Booking List")) {
             this.showBookingList();
         } else if (cm.equals("Update Car")){
-            System.out.println("Update Car");
+            this.updateCar();
         } else if (cm.equals("Remove Car")){
-            System.out.println("Update Car");
+            this.removeCar();
         } else if (cm.equals("Search Car")){
-            System.out.println("Update Car");
+            this.searchCar();
         } else if (cm.equals("Show Car List")) {
-            System.out.println("Update Car");
+            this.showCarList();
         } else if(cm.equals("Add Car")) {
-            System.out.println("Add Car");
+            this.addCar();
         }
     }
 
@@ -111,5 +111,36 @@ public class GarageManagement implements ActionListener {
     }
     public void showBookingList(){
         screen.showListBookings();
+    }
+    public void addCar(){
+        String numPlate = JOptionPane.showInputDialog(null,"Enter number plate of Car:");
+        String type = JOptionPane.showInputDialog(null,"Enter type of Car:");
+        String maintenanceSchedule = JOptionPane.showInputDialog(null,"Enter maintenance schedule of Car:");
+        String carMaker = JOptionPane.showInputDialog(null,"Enter carmaker of Car:");
+        int year = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter year manufacture of Car:"));
+        String status = JOptionPane.showInputDialog(null,"Enter status of Car:");
+        lcars.addItem(new Car(numPlate, type, maintenanceSchedule, carMaker, year, status));
+        screen.showListCars();
+    }
+    public void updateCar(){
+        lcars.list.clear();
+        for (int i = 0; i < screen.table.getRowCount(); i++) {
+            String[] row = new String[screen.table.getColumnCount()];
+            for (int j = 0; j < screen.table.getColumnCount(); j++) {
+                row[j] = String.valueOf(screen.table.getValueAt(i, j));
+            }
+            lcars.list.add(new Car(row[1], row[2], row[3], row[4], Integer.parseInt(row[5]), row[6]));
+        }
+        lcars.rewriteData();
+        screen.showListCars();
+    }
+    public void removeCar(){
+
+    }
+    public void searchCar(){
+
+    }
+    public void showCarList(){
+        screen.showListCars();
     }
 }

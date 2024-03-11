@@ -64,7 +64,7 @@ public class ListOfCars extends ListController<Car>{
         super.removeItem(item);
         this.rewriteData();
     }
-    private void rewriteData(){
+    public void rewriteData(){
         try {
             FileWriter writer = new FileWriter(filepath);
             for(Car i : list){
