@@ -42,6 +42,41 @@ public class Handle {
     public static boolean handleDrivingLicense(String license){
         boolean flag = true;
         String[] l = license.split(",");
+    for ()
+        switch(license){
+            case "A1":
+                flag = true;
+                break;
+            case "A2":
+                flag = true;
+                break;
+            case "A3":
+                flag = true;
+                break;
+            case "A4":
+                flag = true;
+                break;
+            case "B1":
+                flag = true;
+                break;
+            case "B2":
+                flag = true;
+                break;
+            case "C":
+                flag = true;
+                break;
+            case "D":
+                flag = true;
+                break;
+            case "E":
+                flag = true;
+                break;
+            case "F":
+                flag = true;
+                break;
+            default:
+                flag = false;
+        }
         return flag;
     }
 
@@ -52,7 +87,7 @@ public class Handle {
         return true;
     }
 
-    public static boolean handledate(String date) {
+    public static boolean handleDate(String date) {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDateTime dateL = LocalDateTime.parse(date, formatter);
@@ -63,12 +98,8 @@ public class Handle {
         }
     }
 
-    public static boolean setStatus(String status){
+    public static boolean handleStatus(String status){
         switch(status){
-            case "unavailable":
-                return true;
-            case "available":
-                return true;
             case "Available":
                 return true;
             case "Unavailable":
@@ -100,7 +131,7 @@ public class Handle {
     }
 
 //Person + Customer
-    public static boolean setName(String name) {
+    public static boolean handleName(String name) {
         if(name == null){
             return false;
         }
@@ -110,30 +141,30 @@ public class Handle {
         return true;
     }
 
-//    public static boolean setPhoneNumber(String phoneNumber) {
-//        if(phoneNumber.matches("0\\d+")) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    public static boolean handlePhoneNumber(String phoneNumber) {
+        if(!phoneNumber.matches("[0-9+]") || phoneNumber.length() != 10) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 //Car
-//    public static boolean setStatus(String status) {
-//        switch(status) {
-//            case "is maintained":
-//                return true;
-//            case "running":
-//                return true;
-//            case "was broken":
-//                return true;
-//            default:
-//                return false;
-//        }
-//    }
+    public static boolean handleStatus(String status) {
+        switch(status) {
+            case "is maintained":
+                return true;
+            case "running":
+                return true;
+            case "was broken":
+                return true;
+            default:
+                return false;
+       }
+    }
 
-    public static boolean setNumberPlates(String numberPlates) {
-        if (numberPlates == null) {
+    public static boolean handleNumberPlates(String numberPlates) {
+        if (numberPlates == null || numberPlates.length() != 9) {
         return false;
     }
     for (int i = 0; i < numberPlates.length(); i++) {
@@ -145,26 +176,112 @@ public class Handle {
     return true;
     }
 
-//Booking
-//    public static boolean setDate(String date) {
-//        String[] formats = {"dd-MM-yyyy", "dd/MM/yyyy"};
-//
-//        for (String format : formats) {
-//            try {
-//                ... dob = new ...(format);
-//                date.setLenient(false);
-//                date.parse(DOB);
-//                return true;
-//        } catch (ParseException e) {
-//        }
-//        }
-//        return false;
-//    }
+    public static boolean handleMaintainanceSchedule(String maintainenceSchedule) {
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDateTime maintainenceSchedule1 = LocalDateTime.parse(maintainenceSchedule, formatter);
+            return true;
+        } catch(DateTimeParseException e) {
+            System.out.println("Wrong format Date, please reEnter date: ");
+            return false;
+        }
+    }
 
-    public static boolean setDistance(int distance) {
+    public static boolean handleType(String type) {
+        if(name == null){
+            return false;
+        }
+        for (int i = 0; i < name.length(); i++) {
+        char ch = name.charAt(i);
+        if (!Character.isLetter(ch) && ch != ' ') {
+            return false;
+        }
+    }
+    return true;
+    }
+
+    public static boolean handleCompanyCar(String companyCar) {
+        if(name == null){
+            return false;
+        }
+        for (int i = 0; i < companyCar.length(); i++) {
+        char ch = companyCar.charAt(i);
+        if (!Character.isLetter(ch) && ch != ' ') {
+            return false;
+        }
+    }
+    return true;
+    }
+
+    public static boolean handleYearOfManufacture(String yearOfManufacture) {
+         try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+            LocalDateTime yearOfManufacture1 = LocalDateTime.parse(yearOfManufacture, formatter);
+            return true;
+        } catch(DateTimeParseException e) {
+            System.out.println("Wrong format Date, please reEnter date: ");
+            return false;
+        }
+    }
+//Booking
+    public static boolean handleDate(String date) {
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDateTime dateL = LocalDateTime.parse(date, formatter);
+            return true;
+        } catch(DateTimeParseException e) {
+            System.out.println("Wrong format Date, please reEnter date: ");
+            return false;
+        }
+    }
+    public static boolean handleIDBooking(String IDbooking) {
+        if( !IDbooking.matches("[0-9]")){
+            return false;
+        }
+        else return true;
+    }
+
+    public static boolean handleStart(String start) {
+        if(name == null){
+            return false;
+        }
+        for (int i = 0; i < start.length(); i++) {
+        char ch = start.charAt(i);
+        if (!Character.isLetter(ch) && ch != ' ') {
+            return false;
+        }
+    }
+    return true;
+    }
+
+    public static boolean handleDestination(String destination) {
+        if(name == null){
+            return false;
+        }
+        for (int i = 0; i < destination.length(); i++) {
+        char ch = destination.charAt(i);
+        if (!Character.isLetter(ch) && ch != ' ') {
+            return false;
+        }
+    }
+    return true;
+    }
+
+    public static boolean handleDistance(int distance) {
         if(distance < 0) {
             return false;
         }
             return true;
         }
+    }
+
+    public static boolean handleStatus(String status) {
+        switch(status) {
+            case "available":
+                return true;
+            case "unavailable":
+                return true;
+            default:
+                return false;
+       }
     }
