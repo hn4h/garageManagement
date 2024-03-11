@@ -59,6 +59,16 @@ public class GarageManagement implements ActionListener {
             this.showDriverList();
         } else if(cm.equals("Add Driver")) {
             this.addDriver();
+        } else if (cm.equals("Update Customer")){
+            this.updateCustomer();
+        } else if (cm.equals("Remove Customer")){
+            this.removeCustomer();
+        } else if (cm.equals("Search Customer")){
+            this.searchCustomer();
+        } else if (cm.equals("Show Customer List")) {
+            this.showCustomerList();
+        } else if(cm.equals("Add Customer")) {
+            this.addCustomer();
         }
     }
 
@@ -192,7 +202,7 @@ public class GarageManagement implements ActionListener {
                     row[7], Double.parseDouble(row[8]) ));
         }
         ldrivers.rewriteData();
-        screen.showListCars();
+        screen.showListDrivers();
     }
     public void removeDriver(){
         String id = JOptionPane.showInputDialog(null,"Enter ID of removed Driver:");
@@ -201,9 +211,39 @@ public class GarageManagement implements ActionListener {
         screen.showListDrivers();
     }
     public void searchDriver(){
+        String id = JOptionPane.showInputDialog(null,"Enter ID of searched Driver:");
+        Driver driver = ldrivers.getList().stream().filter(d -> d.getId().equals(id)).collect(Collectors.toList()).get(0);
+        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+        int h = modelE.getRowCount();
+        for(int j = 0;j < h ;j++) {
+           modelE.removeRow(0);
+        }
+        modelE.addRow(new Object[]{1, driver.getName(), driver.getPhoneNumber(), driver.getId(), driver.getDOB(),
+                   driver.getAccommodation(), driver.getDrivingLicense(),
+                    driver.getStatus(), driver.getSalary()});
+        }
 
-    }
+
+
     public void showDriverList(){
         screen.showListDrivers();
+    }
+    public void addCustomer(){
+        String name = JOptionPane.showInputDialog(null, "Enter Name of Customer:");
+        String phoneNumber = JOptionPane.showInputDialog(null, "Enter Name of Customer:");
+        lcus.addItem(new Customer(lcus.getNextID(), name, phoneNumber));
+        screen.showListCustomers();
+    }
+    public void updateCustomer(){
+
+    }
+    public void removeCustomer(){
+
+    }
+    public void searchCustomer(){
+
+    }
+    public void showCustomerList(){
+        screen.showListCustomers();
     }
 }
