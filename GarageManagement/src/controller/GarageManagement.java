@@ -141,7 +141,21 @@ public class GarageManagement implements ActionListener {
         screen.showListCars();
     }
     public void searchCar(){
-
+        String id = JOptionPane.showInputDialog(null, "Enter number plate of searched Car: ");
+        Car car = lcars.getList().stream().filter(b -> b.getNumberPlates().equals(id)).collect(Collectors.toList()).get(0);
+        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+        int h = modelE.getRowCount();
+        for(int j = 0;j < h ;j++) {
+            modelE.removeRow(0);
+        }
+        for(int i = 0 ; i < lcars.getList().size();i++) {
+            if (lcars.getList().get(i).getNumberPlates().equals(car.getNumberPlates())) {
+                modelE.addRow(new Object[]{(i + 1), lcars.getList().get(i).getNumberPlates(),
+                        lcars.getList().get(i).getType(), lcars.getList().get(i).getMaintenanceSchedule()
+                        , lcars.getList().get(i).getCompanyCar(), lcars.getList().get(i).getYear(),
+                        lcars.getList().get(i).getStatus()});
+            }
+        }
     }
     public void showCarList(){
         screen.showListCars();
