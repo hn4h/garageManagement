@@ -253,7 +253,14 @@ public class GarageManagement implements ActionListener {
         screen.showListCustomers();
     }
     public void searchCustomer(){
-
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of searched Customer: "));
+        Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
+        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+        int h = modelE.getRowCount();
+        for(int j = 0;j < h ;j++) {
+            modelE.removeRow(0);
+        }
+        modelE.addRow(new Object[]{1, cus.getName(), cus.getPhoneNumber()});
     }
     public void showCustomerList(){
         screen.showListCustomers();
