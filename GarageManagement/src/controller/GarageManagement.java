@@ -135,7 +135,10 @@ public class GarageManagement implements ActionListener {
         screen.showListCars();
     }
     public void removeCar(){
-
+        String id = JOptionPane.showInputDialog(null, "Enter number plate of removed Car: ");
+        Car car = lcars.getList().stream().filter(b -> b.getNumberPlates().equals(id)).collect(Collectors.toList()).get(0);
+        lcars.removeItem(car);
+        screen.showListCars();
     }
     public void searchCar(){
 
