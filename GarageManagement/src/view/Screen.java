@@ -1,6 +1,7 @@
 package view;
 import controller.GarageManagement;
 import model.Booking;
+import model.Car;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -31,6 +32,24 @@ public class Screen extends JFrame implements ActionListener {
     private JLabel lblSpace2;
     private JLabel lblSpace3;
     public JTable table;
+
+    public Container container;
+
+    private JButton addCarbtn;
+    private JButton removeCarbtn;
+    private JButton updateCarbtn;
+    private JButton searchCarbtn;
+    private JButton showCarListbtn;
+    private JButton addDriverbtn;
+    private JButton removeDriverbtn;
+    private JButton updateCarbtn;
+    private JButton searchCarbtn;
+    private JButton showCarListbtn;
+    private JButton addCarbtn;
+    private JButton removeCarbtn;
+    private JButton updateCarbtn;
+    private JButton searchCarbtn;
+    private JButton showCarListbtn;
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -57,6 +76,9 @@ public class Screen extends JFrame implements ActionListener {
 
         setContentPane(panel);
         panel.setLayout(null);
+
+        container = getContentPane();
+        container.setLayout(new FlowLayout());
 
         selectListBox = Box.createHorizontalBox();
         selectListBox.setBorder(new TitledBorder(null,"List",
@@ -89,10 +111,10 @@ public class Screen extends JFrame implements ActionListener {
         functionBox.setBounds(5,650,1170,80);
         panel.add(functionBox);
 
-        lblSpace = new JLabel("                                       ");
-        lblSpace1 = new JLabel("                                                 ");
-        lblSpace2 = new JLabel("                                                 ");
-        lblSpace3 = new JLabel("                                                 ");
+        lblSpace = new JLabel("                                             ");
+        lblSpace1 = new JLabel("                                            ");
+        lblSpace2 = new JLabel("                                            ");
+        lblSpace3 = new JLabel("                                            ");
         addBookingbtn = new JButton("Add Booking");
         addBookingbtn.addActionListener(action);
 
@@ -108,12 +130,32 @@ public class Screen extends JFrame implements ActionListener {
         showBookingListbtn = new JButton("Show Booking List");
         showBookingListbtn.addActionListener(action);
 
+        addCarbtn = new JButton("Add Car");
+        addCarbtn.addActionListener(action);
+
+        updateCarbtn= new JButton("Update Car");
+        updateCarbtn.addActionListener(action);
+
+        removeCarbtn = new JButton("Remove Car");
+        removeCarbtn.addActionListener(action);
+
+        searchCarbtn = new JButton("Search Car");
+        searchCarbtn.addActionListener(action);
+
+        showCarListbtn = new JButton("Show Car List");
+        showCarListbtn.addActionListener(action);
+
+        container.add(functionBox);
+
         this.showListBookings();
         setLayout(null);
         setVisible(true);
     }
     public void showListBookings(){
         selectListBox.removeAll();
+        functionBox.removeAll();
+        container.revalidate();
+        container.repaint();
         selectListBox.setBorder(new TitledBorder(null,"List Of Bookings",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
         selectListBox.setBounds(5,50,1170,600);
@@ -149,11 +191,16 @@ public class Screen extends JFrame implements ActionListener {
         functionBox.add(searchBookingbtn);
         functionBox.add(lblSpace);
         functionBox.add(showBookingListbtn);
+
+
         selectListBox.add(sp);
         panel.revalidate();
     }
     public void showListDrivers(){
         selectListBox.removeAll();
+        functionBox.removeAll();
+        container.revalidate();
+        container.repaint();
         selectListBox.setBorder(new TitledBorder(null,"List Of Drivers",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
         String[] columnNames = {"No", "Name", "id", "DOB",
@@ -176,6 +223,9 @@ public class Screen extends JFrame implements ActionListener {
     }
     public void showListCars(){
         selectListBox.removeAll();
+        functionBox.removeAll();
+        container.revalidate();
+        container.repaint();
         selectListBox.setBorder(new TitledBorder(null,"List Of Cars",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
 
@@ -193,7 +243,23 @@ public class Screen extends JFrame implements ActionListener {
         table.setRowHeight(20);
         JScrollPane sp = new JScrollPane(table);
 
+        DefaultTableModel modelE = (DefaultTableModel) table.getModel();
+        for(int i = 0 ; i < manage.lcars.getList().size();i++){
+            modelE.addRow(new Object[]{(i+1), manage.lcars.getList().get(i).getNumberPlates(),
+                    manage.lcars.getList().get(i).getType(), manage.lcars.getList().get(i).getMaintenanceSchedule()
+                    , manage.lcars.getList().get(i).getCompanyCar(), manage.lcars.getList().get(i).getYear(),
+                    manage.lcars.getList().get(i).getStatus()});
+        }
 
+        functionBox.add(addCarbtn);
+        functionBox.add(lblSpace1);
+        functionBox.add(updateCarbtn);
+        functionBox.add(lblSpace2);
+        functionBox.add(removeCarbtn);
+        functionBox.add(lblSpace3);
+        functionBox.add(searchCarbtn);
+        functionBox.add(lblSpace);
+        functionBox.add(showCarListbtn);
 
         selectListBox.add(sp);
         panel.revalidate();
@@ -201,6 +267,9 @@ public class Screen extends JFrame implements ActionListener {
 
     public  void showListCustomers(){
         selectListBox.removeAll();
+        functionBox.removeAll();
+        container.revalidate();
+        container.repaint();
         selectListBox.setBorder(new TitledBorder(null,"List Of Customers",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
 

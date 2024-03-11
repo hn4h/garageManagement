@@ -17,6 +17,7 @@ public class ListOfCars extends ListController<Car>{
         this.readData();
     }
     public void readData(){
+        list.clear();
         try {
             scanner = new Scanner(new File(filepath));
             while(scanner.hasNextLine()){

@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 public class GarageManagement implements ActionListener {
     public ListOfCustomers lcus;
     public ListOfBookings lBookings;
-    private ListOfCars lcars;
-    private ListOfDrivers ldrivers;
+    public ListOfCars lcars;
+    public ListOfDrivers ldrivers;
     private Screen screen;
     public GarageManagement(Screen screen){
         lcus = new ListOfCustomers();
@@ -39,8 +39,19 @@ public class GarageManagement implements ActionListener {
             this.searchBooking();
         } else if (cm.equals("Show Booking List")) {
             this.showBookingList();
+        } else if (cm.equals("Update Car")){
+            System.out.println("Update Car");
+        } else if (cm.equals("Remove Car")){
+            System.out.println("Update Car");
+        } else if (cm.equals("Search Car")){
+            System.out.println("Update Car");
+        } else if (cm.equals("Show Car List")) {
+            System.out.println("Update Car");
+        } else if(cm.equals("Add Car")) {
+            System.out.println("Add Car");
         }
     }
+
     public void addBooking(){
         String date = JOptionPane.showInputDialog(null, "Enter date of tour:");
         String start = JOptionPane.showInputDialog(null, "Enter start of tour:");
