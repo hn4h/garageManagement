@@ -1,13 +1,12 @@
 package model;
 
 public class Customer extends Person{
-    private String isDeposit;
     private int id;
 
     public Customer(){
 
     }
-    public Customer(String name, String phoneNumber, int id) {
+    public Customer(int id, String name, String phoneNumber) {
         super(name, phoneNumber);
         this.id = id;
     }

@@ -15,9 +15,11 @@ public class ListOfDrivers extends ListController<Driver> {
             super();
             filepath = "src/List/ListOfDrivers";
             this.readData();
+
         }
 
         public void readData(){
+            list.clear();
             try {
                 scanner = new Scanner(new File(filepath));
                 while(scanner.hasNextLine()){
@@ -82,6 +84,6 @@ public class ListOfDrivers extends ListController<Driver> {
     @Override
     public ArrayList<Driver> getList() {
             this.readData();
-        return super.getList();
+        return list;
     }
 }

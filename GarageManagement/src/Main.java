@@ -17,9 +17,10 @@ public class Main {
         Driver le = new Driver("Le","0339404584", "1234","1/1/2004","TN","A1","Ngu",0);
         Driver tu = new Driver("ATu" , "0123456789", "321", "25/09/2004", "HN","A2","Available",100);
 //        n.removeItem(2);
-        Customer hnah = new Customer("Hai Anh", "0339404584",1);
+        Customer hnah = new Customer(2,"Hnah","0339404584");
+
         ListOfCustomers c = new ListOfCustomers();
-        c.addItem(hnah);
+       // c.addItem(hnah);
 
     }
 }

@@ -33,7 +33,7 @@ public class ListOfBookings extends ListController<Booking> {
             scanner = new Scanner(new File(filepath));
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
-                String data[] = line.split("\\|");
+                String[] data = line.split("\\|");
                 Customer addedCustomer = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(data[5])).collect(Collectors.toList()).get(0);
                 Driver addedDriver = ldrivers.getList().stream().filter(d -> d.getId().equals(data[6])).collect(Collectors.toList()).get(0);
                 Car addedCar = lcar.getList().stream().filter(c -> c.getNumberPlates().equals(data[7])).collect(Collectors.toList()).get(0);
@@ -67,7 +67,6 @@ public class ListOfBookings extends ListController<Booking> {
                         item.getCustomer().getId() + "|" + item.getDriver().getId() + "|" +
                         item.getCar().getNumberPlates() + "|" + item.getIsDeposit() + "|" + item.getStatus());
                 nextID++;
-                System.out.println(nextID);
             }
             scanner.close();
             writer.close();

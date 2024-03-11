@@ -2,6 +2,8 @@ package view;
 import controller.GarageManagement;
 import model.Booking;
 import model.Car;
+import model.Customer;
+import model.Driver;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +13,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Screen extends JFrame implements ActionListener {
     private GarageManagement manage;
@@ -42,14 +45,14 @@ public class Screen extends JFrame implements ActionListener {
     private JButton showCarListbtn;
     private JButton addDriverbtn;
     private JButton removeDriverbtn;
-    private JButton updateCarbtn;
-    private JButton searchCarbtn;
-    private JButton showCarListbtn;
-    private JButton addCarbtn;
-    private JButton removeCarbtn;
-    private JButton updateCarbtn;
-    private JButton searchCarbtn;
-    private JButton showCarListbtn;
+    private JButton updateDriverbtn;
+    private JButton searchDriverbtn;
+    private JButton showDriverListbtn;
+    private JButton addCusbtn;
+    private JButton removeCusbtn;
+    private JButton updateCusbtn;
+    private JButton searchCusbtn;
+    private JButton showCusListbtn;
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -145,6 +148,36 @@ public class Screen extends JFrame implements ActionListener {
         showCarListbtn = new JButton("Show Car List");
         showCarListbtn.addActionListener(action);
 
+        addDriverbtn = new JButton("Add Driver");
+        addDriverbtn.addActionListener(action);
+
+        updateDriverbtn= new JButton("Update Driver");
+        updateDriverbtn.addActionListener(action);
+
+        removeDriverbtn = new JButton("Remove Driver");
+        removeDriverbtn.addActionListener(action);
+
+        searchDriverbtn = new JButton("Search Driver");
+        searchDriverbtn.addActionListener(action);
+
+        showDriverListbtn = new JButton("Show Driver List");
+        showDriverListbtn.addActionListener(action);
+
+        addCusbtn = new JButton("Add Customer");
+        addCusbtn.addActionListener(action);
+
+        updateCusbtn= new JButton("Update Customer");
+        updateCusbtn.addActionListener(action);
+
+        removeCusbtn = new JButton("Remove Customer");
+        removeCusbtn.addActionListener(action);
+
+        searchCusbtn = new JButton("Search Customer");
+        searchCusbtn.addActionListener(action);
+
+        showCusListbtn = new JButton("Show Customer List");
+        showCusListbtn.addActionListener(action);
+
         container.add(functionBox);
 
         this.showListBookings();
@@ -161,7 +194,7 @@ public class Screen extends JFrame implements ActionListener {
         selectListBox.setBounds(5,50,1170,600);
 
         String[] columnNames = {"No", "Date", "Start", "Destination",
-                "Distance", "ID of Customer", "ID of Driver", "Car", "Deposit", "Status"};
+                "Distance", "ID of Customer", "ID of Driver", "Number Plate Of Car", "Deposit", "Status"};
         table = new JTable();
         table.setModel(new DefaultTableModel(new Object[][]{}, columnNames));
         table.getColumnModel().getColumn(0).setPreferredWidth(5);
@@ -203,7 +236,7 @@ public class Screen extends JFrame implements ActionListener {
         container.repaint();
         selectListBox.setBorder(new TitledBorder(null,"List Of Drivers",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
-        String[] columnNames = {"No", "Name", "id", "DOB",
+        String[] columnNames = {"No", "Name", "Id", "DOB",
                 "Accommodation", "Driving License", "Status", "Salary"};
         table = new JTable();
         table.setModel(new DefaultTableModel(new Object[][]{}, columnNames));
@@ -217,6 +250,28 @@ public class Screen extends JFrame implements ActionListener {
         table.getColumnModel().getColumn(7).setPreferredWidth(150);
         table.setRowHeight(20);
         JScrollPane sp = new JScrollPane(table);
+
+
+        DefaultTableModel modelE = (DefaultTableModel) table.getModel();
+        ArrayList<Driver> driversList = new ArrayList<>();
+        driversList = manage.ldrivers.getList();
+
+        for (int i = 0; i < driversList.size(); i++) {
+            Driver driver = driversList.get(i);
+            modelE.addRow(new Object[]{(i + 1), driver.getName(), driver.getId(), driver.getDOB(),
+                    driver.getAccommodation(), driver.getDrivingLicense(),
+                    driver.getStatus(), driver.getSalary()});
+        }
+
+        functionBox.add(addDriverbtn);
+        functionBox.add(lblSpace1);
+        functionBox.add(updateDriverbtn);
+        functionBox.add(lblSpace2);
+        functionBox.add(removeDriverbtn);
+        functionBox.add(lblSpace3);
+        functionBox.add(searchDriverbtn);
+        functionBox.add(lblSpace);
+        functionBox.add(showDriverListbtn);
 
         selectListBox.add(sp);
         panel.revalidate();
@@ -273,7 +328,7 @@ public class Screen extends JFrame implements ActionListener {
         selectListBox.setBorder(new TitledBorder(null,"List Of Customers",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
 
-        String[] columnNames = {"No", "Name", "Phone Number"};
+        String[] columnNames = {"ID", "Name", "Phone Number"};
         table = new JTable();
         table.setModel(new DefaultTableModel(new Object[][]{}, columnNames));
         table.getColumnModel().getColumn(0).setPreferredWidth(10);
@@ -282,6 +337,23 @@ public class Screen extends JFrame implements ActionListener {
         table.setRowHeight(20);
         JScrollPane sp = new JScrollPane(table);
 
+        ArrayList<Customer> cusList = new ArrayList<>(manage.lcus.getList());
+        System.out.println(cusList.size());
+        DefaultTableModel modelE = (DefaultTableModel) table.getModel();
+        for(Customer i : cusList){
+            modelE.addRow(new Object[]{ i.getId(), i.getName(), i.getPhoneNumber()});
+        }
+
+        functionBox.add(addCusbtn);
+        functionBox.add(lblSpace1);
+        functionBox.add(updateCusbtn);
+        functionBox.add(lblSpace2);
+        functionBox.add(removeCusbtn);
+        functionBox.add(lblSpace3);
+        functionBox.add(searchCusbtn);
+        JLabel lblSpace4 = new JLabel("                              ");
+        functionBox.add(lblSpace4);
+        functionBox.add(showCusListbtn);
 
         selectListBox.add(sp);
         panel.revalidate();
