@@ -54,12 +54,12 @@ public class GarageManagement implements ActionListener {
         Customer addedCus = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(idOfCustomer)).collect(Collectors.toList()).get(0);
         Driver addedDriver = ldrivers.getList().stream().filter(driver -> driver.getId().equals(idOfDriver)).collect(Collectors.toList()).get(0);
         Car addedCar = lcars.getList().stream().filter(car -> car.getNumberPlates().equals(numplateOfCar)).collect(Collectors.toList()).get(0);
-        lBookings.addItem(new Booking(lBookings.getList().size()+1,date,start,destination,
+        lBookings.addItem(new Booking(lBookings.getNextID(),date,start,destination,
                 distance,addedCus,addedDriver,addedCar,isDeposit,status));
         screen.showListBookings();
     }
     public void updateBooking(){
-        lBookings.clearData();
+        lBookings.list.clear();
         for (int i = 0; i < screen.table.getRowCount(); i++) {
             String[] row = new String[screen.table.getColumnCount()];
             for (int j = 0; j < screen.table.getColumnCount(); j++) {
@@ -68,9 +68,10 @@ public class GarageManagement implements ActionListener {
             Customer addedCus = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(row[5])).collect(Collectors.toList()).get(0);
             Driver addedDriver = ldrivers.getList().stream().filter(driver -> driver.getId().equals(row[6])).collect(Collectors.toList()).get(0);
             Car addedCar = lcars.getList().stream().filter(car -> car.getNumberPlates().equals(row[7])).collect(Collectors.toList()).get(0);
-            lBookings.addItem(new Booking(Integer.parseInt(row[0]), row[1], row[2],row[3], Integer.parseInt(row[4]),
+            lBookings.list.add(new Booking(Integer.parseInt(row[0]), row[1], row[2],row[3], Integer.parseInt(row[4]),
                     addedCus,addedDriver, addedCar, row[8], row[9]));
         }
+        lBookings.rewriteData();
         screen.showListBookings();
     }
     public void removeBooking(){

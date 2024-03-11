@@ -17,12 +17,14 @@ public class ListOfBookings extends ListController<Booking> {
     ListOfDrivers ldrivers;
     ListOfCustomers lcus;
     ListOfCars lcar;
+    private int nextID;
     public ListOfBookings(){
         super();
         ldrivers = new ListOfDrivers();
         lcus = new ListOfCustomers();
         lcar = new ListOfCars();
         filepath = "src/List/ListOfBookings";
+        nextID = 1;
         this.readData();
     }
     public void readData(){
@@ -37,6 +39,7 @@ public class ListOfBookings extends ListController<Booking> {
                 Car addedCar = lcar.getList().stream().filter(c -> c.getNumberPlates().equals(data[7])).collect(Collectors.toList()).get(0);
                 list.add(new Booking(Integer.parseInt(data[0]), data[1], data[2],data[3], Integer.parseInt(data[4]),
                         addedCustomer,addedDriver, addedCar, data[8], data[9]));
+                nextID = Integer.parseInt(data[0]) + 1;
             }
             scanner.close();
         }catch (FileNotFoundException e){
@@ -52,16 +55,19 @@ public class ListOfBookings extends ListController<Booking> {
             FileWriter writer = new FileWriter(filepath, true);
             scanner = new Scanner(new File(filepath));
             if(!scanner.hasNextLine()){
-                writer.write((this.getList().size() + 1) + "|" + item.getDate() + "|"
+                writer.write( nextID + "|" + item.getDate() + "|"
                         + item.getStart() + "|" + item.getDestination() + "|" + item.getDistance() + "|" +
                         item.getCustomer().getId() + "|" + item.getDriver().getId() + "|" +
                         item.getCar().getNumberPlates() + "|" + item.getIsDeposit() + "|" + item.getStatus());
+                nextID++;
             }
             else{
-                writer.write("\n" + (this.getList().size() + 1) + "|" + item.getDate() + "|"
+                writer.write("\n" + nextID + "|" + item.getDate() + "|"
                         + item.getStart() + "|" + item.getDestination() + "|" + item.getDistance() + "|" +
                         item.getCustomer().getId() + "|" + item.getDriver().getId() + "|" +
                         item.getCar().getNumberPlates() + "|" + item.getIsDeposit() + "|" + item.getStatus());
+                nextID++;
+                System.out.println(nextID);
             }
             scanner.close();
             writer.close();
@@ -86,11 +92,18 @@ public class ListOfBookings extends ListController<Booking> {
         try {
             FileWriter writer = new FileWriter(filepath);
             for(Booking i : list){
+                if(list.get(list.size()-1).getIDbooking() == i.getIDbooking() ){
+                    writer.write(i.getIDbooking() + "|" + i.getDate() + "|"
+                            + i.getStart() + "|" + i.getDestination() + "|" + i.getDistance() + "|" +
+                            i.getCustomer().getId() + "|" + i.getDriver().getId() + "|" +
+                            i.getCar().getNumberPlates() + "|" + i.getIsDeposit() + "|" + i.getStatus());
+                    nextID = i.getIDbooking() + 1;
+                }else {
                 writer.write(i.getIDbooking() + "|" + i.getDate() + "|"
                         + i.getStart() + "|" + i.getDestination() + "|" + i.getDistance() + "|" +
                         i.getCustomer().getId() + "|" + i.getDriver().getId() + "|" +
                         i.getCar().getNumberPlates() + "|" + i.getIsDeposit() + "|" + i.getStatus() + "\n");
-            }
+            }}
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,5 +118,9 @@ public class ListOfBookings extends ListController<Booking> {
     public void clearData(){
         list.clear();
         this.rewriteData();
+    }
+
+    public int getNextID() {
+        return nextID;
     }
 }
