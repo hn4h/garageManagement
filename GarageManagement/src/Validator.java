@@ -16,11 +16,8 @@ import java.util.Formatter;
  * @author AD
  */
 public class Validator {
-    private JFrame f;
-    public Validator(){
-        f = new JFrame();
 
-    }
+
 
 //Driver
     public static boolean handleIdPerson(String id){
@@ -31,14 +28,23 @@ public class Validator {
         else return true;
     }
 
-    public static boolean setAccommodation(String accommodation) {
+    public static boolean handleAccommodation(String accommodation) {
         if(accommodation == null) {
             return false;
         }
         if(Character.isSpaceChar(accommodation.charAt(0)) || Character.isSpaceChar(accommodation.charAt(accommodation.length()-1))){
             return false;
         }
+        if (!accommodation.matches("[0-9a-zA-Z-]"))
+        return false;
+
         return true;
+    }
+
+    public static boolean handleDrivingLicense(String license){
+        boolean flag = true;
+        String[] l = license.split(",");
+        return flag;
     }
 
     public static boolean setSalary(double salary) {
@@ -55,6 +61,7 @@ public class Validator {
             return true;
         } catch(DateTimeParseException e) {
             System.out.println("Wrong format Date, please reEnter date: ");
+            return false;
         }
     }
 
