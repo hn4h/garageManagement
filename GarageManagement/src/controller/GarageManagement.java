@@ -230,7 +230,7 @@ public class GarageManagement implements ActionListener {
     }
     public void addCustomer(){
         String name = JOptionPane.showInputDialog(null, "Enter Name of Customer:");
-        String phoneNumber = JOptionPane.showInputDialog(null, "Enter Name of Customer:");
+        String phoneNumber = JOptionPane.showInputDialog(null, "Enter Phone Number of Customer:");
         lcus.addItem(new Customer(lcus.getNextID(), name, phoneNumber));
         screen.showListCustomers();
     }
@@ -247,7 +247,10 @@ public class GarageManagement implements ActionListener {
         screen.showListCustomers();
     }
     public void removeCustomer(){
-
+        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of removed Customer: "));
+        Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
+        lcus.removeItem(cus);
+        screen.showListCustomers();
     }
     public void searchCustomer(){
 
