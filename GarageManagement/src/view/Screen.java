@@ -375,4 +375,7 @@ public class Screen extends JFrame implements ActionListener {
     public void alert(){
         JOptionPane.showMessageDialog(this,"Invalid Data","Alert",JOptionPane.WARNING_MESSAGE);
     }
+    public void alert1(){
+        JOptionPane.showMessageDialog(this,"ID doesn't exit","Alert",JOptionPane.WARNING_MESSAGE);
+    }
 }

@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class GarageManagement implements ActionListener {
@@ -251,31 +252,45 @@ public class GarageManagement implements ActionListener {
     }
     public void updateCustomer(){
         lcus.list.clear();
+        boolean flag = true;
         for (int i = 0; i < screen.table.getRowCount(); i++) {
             String[] row = new String[screen.table.getColumnCount()];
             for (int j = 0; j < screen.table.getColumnCount(); j++) {
                 row[j] = String.valueOf(screen.table.getValueAt(i, j));
             }
-            lcus.list.add(new Customer(Integer.parseInt(row[0]), row[1], row[2]));
+            if(Handle.handleName(row[1]) && Handle.handlePhoneNumber(row[2])){
+                lcus.list.add(new Customer(Integer.parseInt(row[0]), row[1], row[2]));
+            } else {
+                flag = false;
+                screen.alert();
+            }
         }
-        lcus.rewriteData();
+        if(flag)    lcus.rewriteData();
         screen.showListCustomers();
     }
     public void removeCustomer(){
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of removed Customer: "));
-        Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
-        lcus.removeItem(cus);
-        screen.showListCustomers();
+        try {
+            Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
+            lcus.removeItem(cus);
+            screen.showListCustomers();
+        } catch (NoSuchElementException e){
+            screen.alert1();
+        }
     }
     public void searchCustomer(){
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of searched Customer: "));
-        Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
-        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
-        int h = modelE.getRowCount();
-        for(int j = 0;j < h ;j++) {
-            modelE.removeRow(0);
+        try {
+            Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
+            DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+            int h = modelE.getRowCount();
+            for(int j = 0;j < h ;j++) {
+                modelE.removeRow(0);
+            }
+            modelE.addRow(new Object[]{1, cus.getName(), cus.getPhoneNumber()});
+        }catch (NoSuchElementException e){
+            screen.alert1();
         }
-        modelE.addRow(new Object[]{1, cus.getName(), cus.getPhoneNumber()});
     }
     public void showCustomerList(){
         screen.showListCustomers();

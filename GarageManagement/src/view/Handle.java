@@ -92,7 +92,7 @@ public class Handle {
     }
 
     public static boolean handlePhoneNumber(String phoneNumber) {
-        if(!phoneNumber.matches("[0-9+]") || phoneNumber.length() != 10) {
+        if(!phoneNumber.matches("[0-9]+") || phoneNumber.length() != 10) {
             return false;
         } else {
             return true;
