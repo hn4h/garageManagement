@@ -27,6 +27,7 @@ public class ListOfBookings extends ListController<Booking> {
         nextID = 1;
         this.readData();
     }
+
     public void readData(){
         list.clear();
         try {
