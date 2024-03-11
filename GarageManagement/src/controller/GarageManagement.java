@@ -49,6 +49,16 @@ public class GarageManagement implements ActionListener {
             this.showCarList();
         } else if(cm.equals("Add Car")) {
             this.addCar();
+        } else if (cm.equals("Update Driver")){
+            this.updateDriver();
+        } else if (cm.equals("Remove Driver")){
+            this.removeDriver();
+        } else if (cm.equals("Search Driver")){
+            this.searchDriver();
+        } else if (cm.equals("Show Driver List")) {
+            this.showDriverList();
+        } else if(cm.equals("Add Driver")) {
+            this.addDriver();
         }
     }
 
@@ -159,5 +169,28 @@ public class GarageManagement implements ActionListener {
     }
     public void showCarList(){
         screen.showListCars();
+    }
+    public void addDriver(){
+        String name = JOptionPane.showInputDialog(null,"Enter Name of Driver:");
+        String phoneNum = JOptionPane.showInputDialog(null,"Enter Phone Number of Driver:");
+        String id = JOptionPane.showInputDialog(null,"Enter ID of Driver:");
+        String DOB = JOptionPane.showInputDialog(null,"Enter Date Of Birth of Driver:");
+        String accommodation = JOptionPane.showInputDialog(null,"Enter Accommodation of Driver:");
+        String license = JOptionPane.showInputDialog(null,"Enter Driving license of Driver:");
+        String status = JOptionPane.showInputDialog(null,"Enter Status of Driver:");
+        ldrivers.addItem(new Driver(name,phoneNum,id,DOB, accommodation, license, status,0));
+        screen.showListDrivers();
+    }
+    public void updateDriver(){
+
+    }
+    public void removeDriver(){
+
+    }
+    public void searchDriver(){
+
+    }
+    public void showDriverList(){
+        screen.showListDrivers();
     }
 }

@@ -236,7 +236,7 @@ public class Screen extends JFrame implements ActionListener {
         container.repaint();
         selectListBox.setBorder(new TitledBorder(null,"List Of Drivers",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
-        String[] columnNames = {"No", "Name", "Id", "DOB",
+        String[] columnNames = {"No", "Name", "Phone Number", "Id", "DOB",
                 "Accommodation", "Driving License", "Status", "Salary"};
         table = new JTable();
         table.setModel(new DefaultTableModel(new Object[][]{}, columnNames));
@@ -248,6 +248,7 @@ public class Screen extends JFrame implements ActionListener {
         table.getColumnModel().getColumn(5).setPreferredWidth(100);
         table.getColumnModel().getColumn(6).setPreferredWidth(150);
         table.getColumnModel().getColumn(7).setPreferredWidth(150);
+        table.getColumnModel().getColumn(8).setPreferredWidth(150);
         table.setRowHeight(20);
         JScrollPane sp = new JScrollPane(table);
 
@@ -258,7 +259,7 @@ public class Screen extends JFrame implements ActionListener {
 
         for (int i = 0; i < driversList.size(); i++) {
             Driver driver = driversList.get(i);
-            modelE.addRow(new Object[]{(i + 1), driver.getName(), driver.getId(), driver.getDOB(),
+            modelE.addRow(new Object[]{(i + 1), driver.getName(), driver.getPhoneNumber(), driver.getId(), driver.getDOB(),
                     driver.getAccommodation(), driver.getDrivingLicense(),
                     driver.getStatus(), driver.getSalary()});
         }
