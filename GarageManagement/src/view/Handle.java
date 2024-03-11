@@ -20,7 +20,7 @@ public class Handle {
 
 //Driver
     public static boolean handleIdPerson(String id){
-        if( !id.matches("[0-9]") || id.length()!= 12){
+        if( !id.matches("[0-9]+") || id.length()!= 12){
             return false;
         }
         else return true;
