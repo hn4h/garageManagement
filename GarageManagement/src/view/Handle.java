@@ -20,10 +20,11 @@ public class Handle {
 
 //Driver
     public static boolean handleIdPerson(String id){
-        if( !id.matches("[0-9]") || id.length()!= 12){
-            return false;
-        }
-        else return true;
+        if (!id.matches("[0-9]{12}")) {
+        return false;
+    } else {
+        return true;
+    }
     }
 
     public static boolean handleAccommodation(String accommodation) {
@@ -40,10 +41,10 @@ public class Handle {
     }
 
     public static boolean handleDrivingLicense(String license){
-        boolean flag = true;
+        boolean flag = false;
         String[] l = license.split(",");
-    for ()
-        switch(license){
+    for (String lValue : l) {
+        switch(lValue.trim()) {
             case "A1":
                 flag = true;
                 break;
@@ -76,6 +77,11 @@ public class Handle {
                 break;
             default:
                 flag = false;
+                break;
+        }
+        if (!flag) {
+            break;
+        }
         }
         return flag;
     }
@@ -98,8 +104,8 @@ public class Handle {
         }
     }
 
-    public static boolean handleStatus(String status){
-        switch(status){
+    public static boolean handleDriverStatus(String driverStatus){
+        switch(driverStatus){
             case "Available":
                 return true;
             case "Unavailable":
@@ -109,12 +115,12 @@ public class Handle {
         }
     }
 
-    public static boolean handleName(String name) {
-        if(name == null){
+    public static boolean handleDriverName(String driverName) {
+        if(driverName == null){
             return false;
         }
-        for (int i = 0; i < name.length(); i++) {
-        char ch = name.charAt(i);
+        for (int i = 0; i < driverName.length(); i++) {
+        char ch = driverName.charAt(i);
         if (!Character.isLetter(ch) && ch != ' ') {
             return false;
         }
@@ -123,11 +129,11 @@ public class Handle {
     }
 
     public static boolean handlePhoneNumber(String phoneNumber) {
-        if(!phoneNumber.matches("[0-9+]") || phoneNumber.length() != 10) {
-            return false;
-        } else {
-            return true;
-        }
+        if (!phoneNumber.matches("0[0-9]{9}")) {
+        return false;
+    } else {
+        return true;
+    }
     }
 
 //Person + Customer
@@ -141,17 +147,9 @@ public class Handle {
         return true;
     }
 
-    public static boolean handlePhoneNumber(String phoneNumber) {
-        if(!phoneNumber.matches("[0-9+]") || phoneNumber.length() != 10) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
 //Car
-    public static boolean handleStatus(String status) {
-        switch(status) {
+    public static boolean handleCarStatus(String carStatus) {
+        switch(carStatus) {
             case "is maintained":
                 return true;
             case "running":
@@ -188,11 +186,11 @@ public class Handle {
     }
 
     public static boolean handleType(String type) {
-        if(name == null){
+        if(type == null){
             return false;
         }
-        for (int i = 0; i < name.length(); i++) {
-        char ch = name.charAt(i);
+        for (int i = 0; i < type.length(); i++) {
+        char ch = type.charAt(i);
         if (!Character.isLetter(ch) && ch != ' ') {
             return false;
         }
@@ -201,7 +199,7 @@ public class Handle {
     }
 
     public static boolean handleCompanyCar(String companyCar) {
-        if(name == null){
+        if(companyCar == null){
             return false;
         }
         for (int i = 0; i < companyCar.length(); i++) {
@@ -224,10 +222,10 @@ public class Handle {
         }
     }
 //Booking
-    public static boolean handleDate(String date) {
+    public static boolean handleBookingDate(String bookingDate) {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDateTime dateL = LocalDateTime.parse(date, formatter);
+            LocalDateTime bookingDateL = LocalDateTime.parse(bookingDate, formatter);
             return true;
         } catch(DateTimeParseException e) {
             System.out.println("Wrong format Date, please reEnter date: ");
@@ -242,7 +240,7 @@ public class Handle {
     }
 
     public static boolean handleStart(String start) {
-        if(name == null){
+        if(start == null){
             return false;
         }
         for (int i = 0; i < start.length(); i++) {
@@ -255,7 +253,7 @@ public class Handle {
     }
 
     public static boolean handleDestination(String destination) {
-        if(name == null){
+        if(destination == null){
             return false;
         }
         for (int i = 0; i < destination.length(); i++) {
@@ -273,15 +271,4 @@ public class Handle {
         }
             return true;
         }
-    }
-
-    public static boolean handleStatus(String status) {
-        switch(status) {
-            case "available":
-                return true;
-            case "unavailable":
-                return true;
-            default:
-                return false;
-       }
-    }
+}
