@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+import javax.xml.validation.Validator;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,6 +55,8 @@ public class Screen extends JFrame implements ActionListener {
     private JButton updateCusbtn;
     private JButton searchCusbtn;
     private JButton showCusListbtn;
+
+    public Handle handle;
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -68,6 +71,7 @@ public class Screen extends JFrame implements ActionListener {
     }
 
     public Screen(){
+        handle = new Handle(this);
         setTitle("Garage Manage Program");
         setSize(1200,800);
         this.manage = new GarageManagement(this);
@@ -349,7 +353,6 @@ public class Screen extends JFrame implements ActionListener {
         JScrollPane sp = new JScrollPane(table);
 
         ArrayList<Customer> cusList = new ArrayList<>(manage.lcus.getList());
-        System.out.println(cusList.size());
         DefaultTableModel modelE = (DefaultTableModel) table.getModel();
         for(Customer i : cusList){
             modelE.addRow(new Object[]{ i.getId(), i.getName(), i.getPhoneNumber()});

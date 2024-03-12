@@ -6,6 +6,8 @@ package view;/*
 
 import view.Screen;
 
+import javax.swing.*;
+import javax.xml.validation.Validator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,15 +19,28 @@ import java.time.format.DateTimeParseException;
  * @author AD
  */
 public class Handle {
+    public Screen screen;
+
+    public Handle(Screen screen){
+        this.screen = screen;
+    }
 
 
 //Driver
-    public static boolean handleIdPerson(String id){
+    public boolean checkIdDriver(String id){
         if (!id.matches("[0-9]{12}")) {
-        return false;
-    } else {
-        return true;
+            return false;
+        } else {
+            return true;
+        }
     }
+    public String handleIdDriver(){
+        String id = JOptionPane.showInputDialog(null, "Enter ID of Driverr: ");
+        while (!checkIdDriver(id)){
+            screen.alert();
+            id = JOptionPane.showInputDialog(null, "Enter ID of Driverr: ");
+        }
+        return id;
     }
     public static boolean handleDrivingLicense(String license){
         boolean flag = false;
@@ -133,25 +148,43 @@ public class Handle {
     return true;
     }
 
-    public static boolean handlePhoneNumber(String phoneNumber) {
-        if (!phoneNumber.matches("0[0-9]{9}")) {
-        return false;
-    } else {
-        return true;
+    public boolean checkPhoneNumber(String phoneNumber){
+        if (!phoneNumber.matches("0[0-9]{9}")){
+            screen.alert();
+            return false;
+        }else return true;
     }
+    public String handlePhoneNumber() {
+        String phoneNumber = JOptionPane.showInputDialog(null, "Enter Phone Number:");
+        while(!checkPhoneNumber(phoneNumber)){
+            phoneNumber = JOptionPane.showInputDialog(null, "Enter Phone Number:");
+        }
+        return phoneNumber;
     }
 
 //Person + Customer
-    public static boolean handleName(String name) {
+    public boolean checkName(String name){
         if(name == null){
+            screen.alert();
             return false;
         }
         if(Character.isSpaceChar(name.charAt(0)) || Character.isSpaceChar(name.charAt(name.length()-1))){
+            screen.alert();
             return false;
         }
-        if (!name.matches("[a-zA-Z]+"))
+        if (!name.matches("[a-zA-Z\\s]+")){
+            screen.alert();
             return false;
+        }
+
         return true;
+    }
+    public String handleName() {
+        String name = JOptionPane.showInputDialog(null, "Enter Name:");
+        while(!checkName(name)){
+            name = JOptionPane.showInputDialog(null, "Enter Name:");
+        }
+        return name;
     }
 
 //Car
@@ -263,8 +296,8 @@ public class Handle {
             return false;
         }
     }
-    public static boolean handleIDBooking(String IDbooking) {
-        if( !IDbooking.matches("[0-9]")){
+    public static boolean handleID(String IDbooking) {
+        if( !IDbooking.matches("[0-9]+")){
             return false;
         }
         else return true;
