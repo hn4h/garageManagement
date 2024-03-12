@@ -220,14 +220,20 @@ public class Screen extends JFrame implements ActionListener {
             i.getCar().getNumberPlates(), i.getIsDeposit(), i.getStatus()});
         }
 
-        JTable table1 = new JTable(modelE);
         String[] depositOptions = {"Yes", "No"};
-        JComboBox<String> comboBox = new JComboBox<>(depositOptions);
+        JComboBox<String> comboBoxDeposit = new JComboBox<>(depositOptions);
 
-        TableColumn column = table.getColumnModel().getColumn(6);
-        column.setCellEditor(new DefaultCellEditor(comboBox));
+        TableColumn columnDeposit = table.getColumnModel().getColumn(8);
+        columnDeposit.setCellEditor(new DefaultCellEditor(comboBoxDeposit));
 
-        panel.add(comboBox);
+        String[] statusOptions = {"Not Started", "Running", "Done"};
+        JComboBox<String> comboBoxStatus = new JComboBox<>(statusOptions);
+
+        TableColumn columnStatus = table.getColumnModel().getColumn(9);
+        columnStatus.setCellEditor(new DefaultCellEditor(comboBoxStatus));
+
+        panel.add(comboBoxStatus);
+        panel.add(comboBoxDeposit);
 
         functionBox.add(addBookingbtn);
         functionBox.add(lblSpace1);

@@ -80,40 +80,14 @@ public class GarageManagement implements ActionListener {
     }
 
     public void addBooking(){
-        String date = JOptionPane.showInputDialog(null, "Enter date of tour:");
-
-        String start = JOptionPane.showInputDialog(null, "Enter start of tour:");
-        while (!Handle.handlePlace(start)){
-            screen.alert();
-            start = JOptionPane.showInputDialog(null, "Enter start of tour:");
-        }
-        String destination = JOptionPane.showInputDialog(null, "Enter destination of tour:");
-        while (!Handle.handlePlace(destination)){
-            screen.alert();
-            destination = JOptionPane.showInputDialog(null, "Enter destination of tour:");
-        }
-        String d = JOptionPane.showInputDialog(null, "Enter distance of tour:");
-        int distance = -1;
-        try {
-            distance = Integer.parseInt(d);
-        }catch (NumberFormatException e){
-            screen.alert();
-        }
-        while (!Handle.handleDistance(distance)){
-            d = JOptionPane.showInputDialog(null, "Enter distance of tour:");
-            try {
-                distance = Integer.parseInt(d);
-            }catch (NumberFormatException e){
-                screen.alert();
-            }
-            if(!Handle.handleDistance(distance))
-                screen.alert();
-        }
+        String date = handle.handleDate("Enter date of Booking");
+        String start = handle.handlePlace("Enter start of tour:");
+        String destination = handle.handlePlace("Enter destination of tour:");
+        int distance = handle.handleDistance("Enter distance of tour:");
         String idOfCustomer = JOptionPane.showInputDialog(null, "Enter id of customer:");
         String idOfDriver = JOptionPane.showInputDialog(null, "Enter id of driver:");
         String numplateOfCar = JOptionPane.showInputDialog(null, "Enter number plate of car:");
-//        String isDeposit = JOptionPane.showInputDialog(null, "Enter deposit:");
-//        String status = JOptionPane.showInputDialog(null, "Enter status of Tour:");
+
         Customer addedCus = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(idOfCustomer)).collect(Collectors.toList()).get(0);
         Driver addedDriver = ldrivers.getList().stream().filter(driver -> driver.getId().equals(idOfDriver)).collect(Collectors.toList()).get(0);
         Car addedCar = lcars.getList().stream().filter(car -> car.getNumberPlates().equals(numplateOfCar)).collect(Collectors.toList()).get(0);
@@ -122,43 +96,79 @@ public class GarageManagement implements ActionListener {
         screen.showListBookings();
     }
     public void updateBooking(){
+        ArrayList<Booking> temp = new ArrayList<>(lBookings.getList());
         lBookings.list.clear();
         for (int i = 0; i < screen.table.getRowCount(); i++) {
             String[] row = new String[screen.table.getColumnCount()];
             for (int j = 0; j < screen.table.getColumnCount(); j++) {
                 row[j] = String.valueOf(screen.table.getValueAt(i, j));
             }
-            Customer addedCus = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(row[5])).collect(Collectors.toList()).get(0);
-            Driver addedDriver = ldrivers.getList().stream().filter(driver -> driver.getId().equals(row[6])).collect(Collectors.toList()).get(0);
-            Car addedCar = lcars.getList().stream().filter(car -> car.getNumberPlates().equals(row[7])).collect(Collectors.toList()).get(0);
-            lBookings.list.add(new Booking(Integer.parseInt(row[0]), row[1], row[2],row[3], Integer.parseInt(row[4]),
-                    addedCus,addedDriver, addedCar, row[8], row[9]));
+            try {
+                Integer.parseInt(row[0]);
+                Customer addedCus = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(row[5])).collect(Collectors.toList()).get(0);
+                Driver addedDriver = ldrivers.getList().stream().filter(driver -> driver.getId().equals(row[6])).collect(Collectors.toList()).get(0);
+                Car addedCar = lcars.getList().stream().filter(car -> car.getNumberPlates().equals(row[7])).collect(Collectors.toList()).get(0);
+                if(Integer.parseInt(row[0]) == temp.get(i).getIDbooking() && handle.checkDate(row[1]) && handle.checkPlace(row[2]) &&
+                handle.checkPlace(row[3]) && handle.checkDistance(Integer.parseInt(row[4]))){
+                    lBookings.list.add(new Booking(Integer.parseInt(row[0]), row[1], row[2],row[3], Integer.parseInt(row[4]),
+                            addedCus,addedDriver, addedCar, row[8], row[9]));
+                }
+            } catch (IndexOutOfBoundsException e){
+                screen.alert1();
+                lBookings.list.clear();
+                lBookings.readData();
+                screen.showListBookings();
+                return;
+            } catch (NumberFormatException e){
+                screen.alert();
+                lBookings.list.clear();
+                lBookings.readData();
+                screen.showListCustomers();
+                return;
+            }
+
         }
         lBookings.rewriteData();
         screen.showListBookings();
     }
     public void removeBooking(){
-        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of removed booking: "));
-        Booking booking = lBookings.getList().stream().filter(b -> b.getIDbooking() == id).collect(Collectors.toList()).get(0);
-        lBookings.removeItem(booking);
-        screen.showListBookings();
+        try {
+            int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of removed booking: "));
+            Booking booking = lBookings.getList().stream().filter(b -> b.getIDbooking() == id).collect(Collectors.toList()).get(0);
+            lBookings.removeItem(booking);
+            screen.showListBookings();
+        } catch (NoSuchElementException e){
+            screen.alert1();
+        } catch (NumberFormatException e){
+            screen.alert();
+        } catch (IndexOutOfBoundsException e){
+            screen.alert1();
+        }
     }
 
     public void searchBooking(){
-        int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of searched booking: "));
-        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
-        Booking booking = lBookings.getList().stream().filter(b -> b.getIDbooking() == id).collect(Collectors.toList()).get(0);
-        int h = modelE.getRowCount();
-        for(int j = 0;j < h ;j++) {
-            modelE.removeRow(0);
-        }
-        for (Booking i : lBookings.list){
-            if(i.getIDbooking() == booking.getIDbooking()){
-                modelE.addRow(new Object[]{i.getIDbooking(), i.getDate(), i.getStart(),
-                        i.getDestination(), i.getDistance(), i.getCustomer().getId(), i.getDriver().getId(),
-                        i.getCar().getNumberPlates(), i.getIsDeposit(), i.getStatus()});
-                break;
+        try {
+            int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of searched booking: "));
+            DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+            Booking booking = lBookings.getList().stream().filter(b -> b.getIDbooking() == id).collect(Collectors.toList()).get(0);
+            int h = modelE.getRowCount();
+            for(int j = 0;j < h ;j++) {
+                modelE.removeRow(0);
             }
+            for (Booking i : lBookings.list){
+                if(i.getIDbooking() == booking.getIDbooking()){
+                    modelE.addRow(new Object[]{i.getIDbooking(), i.getDate(), i.getStart(),
+                            i.getDestination(), i.getDistance(), i.getCustomer().getId(), i.getDriver().getId(),
+                            i.getCar().getNumberPlates(), i.getIsDeposit(), i.getStatus()});
+                    break;
+                }
+            }
+        } catch (NoSuchElementException e){
+            screen.alert1();
+        } catch (NumberFormatException e){
+            screen.alert();
+        } catch (IndexOutOfBoundsException e){
+            screen.alert1();
         }
     }
     public void showBookingList(){
@@ -266,8 +276,8 @@ public class GarageManagement implements ActionListener {
         screen.showListDrivers();
     }
     public void addCustomer(){
-        String name = handle.handleName();
-        String phoneNumber = handle.handlePhoneNumber();
+        String name = handle.handleName("Enter name of Customer");
+        String phoneNumber = handle.handlePhoneNumber("Enter Phone Number of Customer");
         lcus.addItem(new Customer(lcus.getNextID(), name, phoneNumber));
         screen.showListCustomers();
     }

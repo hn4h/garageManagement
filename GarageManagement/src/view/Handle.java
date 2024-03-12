@@ -88,21 +88,24 @@ public class Handle {
         }
         return flag;
     }
-    public static boolean handlePlace(String place) {
+    public String handlePlace(String msg){
+        String place = JOptionPane.showInputDialog(null, msg);
+        while (!checkPlace(place)){
+            screen.alert();
+            place = JOptionPane.showInputDialog(null, msg);
+        }
+        return place;
+    }
+    public boolean checkPlace(String place) {
         if(place == null) {
-            System.out.println("1");
             return false;
         }
         if(Character.isSpaceChar(place.charAt(0)) || Character.isSpaceChar(place.charAt(place.length()-1))){
-            System.out.println("2");
             return false;
         }
-        if (!place.matches("[0-9a-zA-Z-]+")){
-            System.out.println("3");
+        if (!place.matches("[0-9a-zA-Z-\\s]+")){
             return false;
         }
-
-
         return true;
     }
 
@@ -113,10 +116,19 @@ public class Handle {
         return true;
     }
 
-    public static boolean handleDate(String date) {
+    public String handleDate(String msg){
+        String date = JOptionPane.showInputDialog(null,msg);
+        while (!checkDate(date)){
+            screen.alert();
+            date = JOptionPane.showInputDialog(null,msg);
+        }
+        return date;
+    }
+
+    public boolean checkDate(String date) {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDateTime dateL = LocalDateTime.parse(date, formatter);
+            LocalDate dateL = LocalDate.parse(date, formatter);
             return true;
         } catch(DateTimeParseException e) {
             System.out.println("Wrong format Date, please reEnter date: ");
@@ -154,10 +166,10 @@ public class Handle {
             return false;
         }else return true;
     }
-    public String handlePhoneNumber() {
-        String phoneNumber = JOptionPane.showInputDialog(null, "Enter Phone Number:");
+    public String handlePhoneNumber(String msg) {
+        String phoneNumber = JOptionPane.showInputDialog(null, msg);
         while(!checkPhoneNumber(phoneNumber)){
-            phoneNumber = JOptionPane.showInputDialog(null, "Enter Phone Number:");
+            phoneNumber = JOptionPane.showInputDialog(null, msg);
         }
         return phoneNumber;
     }
@@ -179,10 +191,10 @@ public class Handle {
 
         return true;
     }
-    public String handleName() {
-        String name = JOptionPane.showInputDialog(null, "Enter Name:");
+    public String handleName(String msg) {
+        String name = JOptionPane.showInputDialog(null, msg);
         while(!checkName(name)){
-            name = JOptionPane.showInputDialog(null, "Enter Name:");
+            name = JOptionPane.showInputDialog(null, msg);
         }
         return name;
     }
@@ -329,7 +341,21 @@ public class Handle {
     return true;
     }
 
-    public static boolean handleDistance(int distance) {
+    public int handleDistance(String msg){
+        int d = -1;
+        while(!checkDistance(d)){
+        try {
+            String distance = JOptionPane.showInputDialog(null, msg);
+            d = Integer.parseInt(distance);
+            if (checkDistance(d)) break;
+            screen.alert();
+        }catch (NumberFormatException e){
+            screen.alert();
+        }
+    }
+     return d;
+    }
+    public boolean checkDistance(int distance) {
         if(distance < 0) {
             return false;
         }
