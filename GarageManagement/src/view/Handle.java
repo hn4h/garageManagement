@@ -70,17 +70,22 @@ public class Handle {
     }
     public static boolean handlePlace(String place) {
         if(place == null) {
+            System.out.println("1");
             return false;
         }
         if(Character.isSpaceChar(place.charAt(0)) || Character.isSpaceChar(place.charAt(place.length()-1))){
+            System.out.println("2");
             return false;
         }
-        if (!place.matches("[0-9a-zA-Z-]"))
-        return false;
+        if (!place.matches("[0-9a-zA-Z-]+")){
+            System.out.println("3");
+            return false;
+        }
+
 
         return true;
     }
-    
+
     public static boolean handleSalary(double salary) {
         if(salary < 0) {
             return false;
@@ -181,14 +186,12 @@ public class Handle {
         // Booking
     public static boolean handleStatusBooking(String status){
         switch(status) {
-            case "Not Deposit":
-                return true;
             case "Not Started":
                 return true;
             case "Running":
                 return true;
             case "Done":
-                return true;
+                return true;   
             default:
                 return false;
         }

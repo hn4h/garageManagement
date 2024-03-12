@@ -77,19 +77,47 @@ public class GarageManagement implements ActionListener {
 
     public void addBooking(){
         String date = JOptionPane.showInputDialog(null, "Enter date of tour:");
+//        while (!Handle.handledate(date)){
+//            screen.alert();
+//            date = JOptionPane.showInputDialog(null, "Enter date of tour:");
+//        }
         String start = JOptionPane.showInputDialog(null, "Enter start of tour:");
+        while (!Handle.handlePlace(start)){
+            screen.alert();
+            start = JOptionPane.showInputDialog(null, "Enter start of tour:");
+        }
         String destination = JOptionPane.showInputDialog(null, "Enter destination of tour:");
-        int distance = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter distance of tour:"));
+        while (!Handle.handlePlace(destination)){
+            screen.alert();
+            destination = JOptionPane.showInputDialog(null, "Enter destination of tour:");
+        }
+        String d = JOptionPane.showInputDialog(null, "Enter distance of tour:");
+        int distance = -1;
+        try {
+            distance = Integer.parseInt(d);
+        }catch (NumberFormatException e){
+            screen.alert();
+        }
+        while (!Handle.handleDistance(distance)){
+            d = JOptionPane.showInputDialog(null, "Enter distance of tour:");
+            try {
+                distance = Integer.parseInt(d);
+            }catch (NumberFormatException e){
+                screen.alert();
+            }
+            if(!Handle.handleDistance(distance))
+                screen.alert();
+        }
         String idOfCustomer = JOptionPane.showInputDialog(null, "Enter id of customer:");
         String idOfDriver = JOptionPane.showInputDialog(null, "Enter id of driver:");
         String numplateOfCar = JOptionPane.showInputDialog(null, "Enter number plate of car:");
-        String isDeposit = JOptionPane.showInputDialog(null, "Enter deposit:");
-        String status = JOptionPane.showInputDialog(null, "Enter status of Tour:");
+//        String isDeposit = JOptionPane.showInputDialog(null, "Enter deposit:");
+//        String status = JOptionPane.showInputDialog(null, "Enter status of Tour:");
         Customer addedCus = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(idOfCustomer)).collect(Collectors.toList()).get(0);
         Driver addedDriver = ldrivers.getList().stream().filter(driver -> driver.getId().equals(idOfDriver)).collect(Collectors.toList()).get(0);
         Car addedCar = lcars.getList().stream().filter(car -> car.getNumberPlates().equals(numplateOfCar)).collect(Collectors.toList()).get(0);
         lBookings.addItem(new Booking(lBookings.getNextID(),date,start,destination,
-                distance,addedCus,addedDriver,addedCar,isDeposit,status));
+                distance,addedCus,addedDriver,addedCar,"No","Not Started"));
         screen.showListBookings();
     }
     public void updateBooking(){
