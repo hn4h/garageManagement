@@ -21,23 +21,15 @@ public class Handle {
 
 //Driver
     public static boolean handleIdPerson(String id){
-<<<<<<< HEAD
         if (!id.matches("[0-9]{12}")) {
         return false;
     } else {
         return true;
     }
-=======
-        if( !id.matches("[0-9]+") || id.length()!= 12){
-            return false;
-        }
-        else return true;
->>>>>>> AnhNLH
     }
     public static boolean handleDrivingLicense(String license){
         boolean flag = false;
         String[] l = license.split(",");
-<<<<<<< HEAD
     for (String lValue : l) {
         lValue = lValue.replaceAll("[\\s]","");
         switch(lValue.trim()) {
@@ -78,44 +70,6 @@ public class Handle {
         if (!flag) {
             break;
         }
-=======
-        for (int i = 0; i < l.length;i++){
-            l[i] = l[i].replaceAll("[\\s]","");
-            switch(l[i]){
-                case "A1":
-                    flag = true;
-                    break;
-                case "A2":
-                    flag = true;
-                    break;
-                case "A3":
-                    flag = true;
-                    break;
-                case "A4":
-                    flag = true;
-                    break;
-                case "B1":
-                    flag = true;
-                    break;
-                case "B2":
-                    flag = true;
-                    break;
-                case "C":
-                    flag = true;
-                    break;
-                case "D":
-                    flag = true;
-                    break;
-                case "E":
-                    flag = true;
-                    break;
-                case "F":
-                    flag = true;
-                    break;
-                default:
-                    flag = false;
-            }
->>>>>>> AnhNLH
         }
         return flag;
     }
@@ -155,13 +109,8 @@ public class Handle {
         }
     }
 
-<<<<<<< HEAD
     public static boolean handleDriverStatus(String driverStatus){
         switch(driverStatus){
-=======
-    public static boolean handleStatus(String status){
-        switch(status){
->>>>>>> AnhNLH
             case "Available":
                 return true;
             case "Unavailable":
@@ -185,7 +134,6 @@ public class Handle {
     }
 
     public static boolean handlePhoneNumber(String phoneNumber) {
-<<<<<<< HEAD
         if (!phoneNumber.matches("0[0-9]{9}")) {
         return false;
     } else {
@@ -200,7 +148,7 @@ public class Handle {
         }
         if(Character.isSpaceChar(name.charAt(0)) || Character.isSpaceChar(name.charAt(name.length()-1))){
             return false;
-        }
+        }W
         return true;
     }
 
@@ -226,22 +174,6 @@ public class Handle {
         } else return false;
     }
 
-=======
-        if(!phoneNumber.matches("[0-9]+") || phoneNumber.length() != 10) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-//Person + Customer
-    public static boolean handleNo(int no, int id){
-        if(no == id){
-            return true;
-        } else return false;
-    }
-
->>>>>>> AnhNLH
 //Car
     public static boolean setStatusCar(String status) {
         switch(status) {
@@ -275,7 +207,6 @@ public class Handle {
     return true;
     }
 
-<<<<<<< HEAD
     public static boolean handleMaintainanceSchedule(String maintainenceSchedule) {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -367,20 +298,14 @@ public class Handle {
     return true;
     }
 
-=======
-
->>>>>>> AnhNLH
     public static boolean handleDistance(int distance) {
         if(distance < 0) {
             return false;
         }
             return true;
         }
-<<<<<<< HEAD
 
 
-=======
->>>>>>> AnhNLH
         // Booking
     public static boolean handleStatusBooking(String status){
         switch(status) {
@@ -393,9 +318,5 @@ public class Handle {
             default:
                 return false;
         }
-<<<<<<< HEAD
-=======
-    }
->>>>>>> AnhNLH
     }
     }
