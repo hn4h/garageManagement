@@ -6,6 +6,7 @@ package view;/*
 
 import view.Screen;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,24 +27,11 @@ public class Handle {
         return true;
     }
     }
-
-    public static boolean handleAccommodation(String accommodation) {
-        if(accommodation == null) {
-            return false;
-        }
-        if(Character.isSpaceChar(accommodation.charAt(0)) || Character.isSpaceChar(accommodation.charAt(accommodation.length()-1))){
-            return false;
-        }
-        if (!accommodation.matches("[0-9a-zA-Z-]"))
-        return false;
-
-        return true;
-    }
-
     public static boolean handleDrivingLicense(String license){
         boolean flag = false;
         String[] l = license.split(",");
     for (String lValue : l) {
+        lValue = lValue.replaceAll("[\\s]","");
         switch(lValue.trim()) {
             case "A1":
                 flag = true;
@@ -84,6 +72,23 @@ public class Handle {
         }
         }
         return flag;
+    }
+    public static boolean handlePlace(String place) {
+        if(place == null) {
+            System.out.println("1");
+            return false;
+        }
+        if(Character.isSpaceChar(place.charAt(0)) || Character.isSpaceChar(place.charAt(place.length()-1))){
+            System.out.println("2");
+            return false;
+        }
+        if (!place.matches("[0-9a-zA-Z-]+")){
+            System.out.println("3");
+            return false;
+        }
+
+
+        return true;
     }
 
     public static boolean handleSalary(double salary) {
@@ -160,9 +165,37 @@ public class Handle {
                 return false;
        }
     }
+    
+
+//Person + Customer
+    public static boolean handleNo(int no, int id){
+        if(no == id){
+            return true;
+        } else return false;
+    }
+
+//Car
+    public static boolean setStatusCar(String status) {
+        switch(status) {
+            case "Operating":
+                return true;
+            case "Repairing":
+                return true;
+            case "Available":
+                return true;
+            default:
+                return false;
+        }
+    }
+    public static boolean handleYear(int year){
+        LocalDate date = LocalDate.now();
+        if (year <= date.getYear() && year > 1900){
+            return true;
+        } else return false;
+    }
 
     public static boolean handleNumberPlates(String numberPlates) {
-        if (numberPlates == null || numberPlates.length() != 9) {
+        if (numberPlates == null) {
         return false;
     }
     for (int i = 0; i < numberPlates.length(); i++) {
@@ -271,4 +304,19 @@ public class Handle {
         }
             return true;
         }
-}
+
+
+        // Booking
+    public static boolean handleStatusBooking(String status){
+        switch(status) {
+            case "Not Started":
+                return true;
+            case "Running":
+                return true;
+            case "Done":
+                return true;   
+            default:
+                return false;
+        }
+    }
+    }

@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class GarageManagement implements ActionListener {
@@ -76,19 +77,47 @@ public class GarageManagement implements ActionListener {
 
     public void addBooking(){
         String date = JOptionPane.showInputDialog(null, "Enter date of tour:");
+//        while (!Handle.handledate(date)){
+//            screen.alert();
+//            date = JOptionPane.showInputDialog(null, "Enter date of tour:");
+//        }
         String start = JOptionPane.showInputDialog(null, "Enter start of tour:");
+        while (!Handle.handlePlace(start)){
+            screen.alert();
+            start = JOptionPane.showInputDialog(null, "Enter start of tour:");
+        }
         String destination = JOptionPane.showInputDialog(null, "Enter destination of tour:");
-        int distance = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter distance of tour:"));
+        while (!Handle.handlePlace(destination)){
+            screen.alert();
+            destination = JOptionPane.showInputDialog(null, "Enter destination of tour:");
+        }
+        String d = JOptionPane.showInputDialog(null, "Enter distance of tour:");
+        int distance = -1;
+        try {
+            distance = Integer.parseInt(d);
+        }catch (NumberFormatException e){
+            screen.alert();
+        }
+        while (!Handle.handleDistance(distance)){
+            d = JOptionPane.showInputDialog(null, "Enter distance of tour:");
+            try {
+                distance = Integer.parseInt(d);
+            }catch (NumberFormatException e){
+                screen.alert();
+            }
+            if(!Handle.handleDistance(distance))
+                screen.alert();
+        }
         String idOfCustomer = JOptionPane.showInputDialog(null, "Enter id of customer:");
         String idOfDriver = JOptionPane.showInputDialog(null, "Enter id of driver:");
         String numplateOfCar = JOptionPane.showInputDialog(null, "Enter number plate of car:");
-        String isDeposit = JOptionPane.showInputDialog(null, "Enter deposit:");
-        String status = JOptionPane.showInputDialog(null, "Enter status of Tour:");
+//        String isDeposit = JOptionPane.showInputDialog(null, "Enter deposit:");
+//        String status = JOptionPane.showInputDialog(null, "Enter status of Tour:");
         Customer addedCus = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(idOfCustomer)).collect(Collectors.toList()).get(0);
         Driver addedDriver = ldrivers.getList().stream().filter(driver -> driver.getId().equals(idOfDriver)).collect(Collectors.toList()).get(0);
         Car addedCar = lcars.getList().stream().filter(car -> car.getNumberPlates().equals(numplateOfCar)).collect(Collectors.toList()).get(0);
         lBookings.addItem(new Booking(lBookings.getNextID(),date,start,destination,
-                distance,addedCus,addedDriver,addedCar,isDeposit,status));
+                distance,addedCus,addedDriver,addedCar,"No","Not Started"));
         screen.showListBookings();
     }
     public void updateBooking(){
@@ -251,31 +280,45 @@ public class GarageManagement implements ActionListener {
     }
     public void updateCustomer(){
         lcus.list.clear();
+        boolean flag = true;
         for (int i = 0; i < screen.table.getRowCount(); i++) {
             String[] row = new String[screen.table.getColumnCount()];
             for (int j = 0; j < screen.table.getColumnCount(); j++) {
                 row[j] = String.valueOf(screen.table.getValueAt(i, j));
             }
-            lcus.list.add(new Customer(Integer.parseInt(row[0]), row[1], row[2]));
+            if(Handle.handleName(row[1]) && Handle.handlePhoneNumber(row[2])){
+                lcus.list.add(new Customer(Integer.parseInt(row[0]), row[1], row[2]));
+            } else {
+                flag = false;
+                screen.alert();
+            }
         }
-        lcus.rewriteData();
+        if(flag)    lcus.rewriteData();
         screen.showListCustomers();
     }
     public void removeCustomer(){
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of removed Customer: "));
-        Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
-        lcus.removeItem(cus);
-        screen.showListCustomers();
+        try {
+            Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
+            lcus.removeItem(cus);
+            screen.showListCustomers();
+        } catch (NoSuchElementException e){
+            screen.alert1();
+        }
     }
     public void searchCustomer(){
         int id = Integer.parseInt(JOptionPane.showInputDialog(null, "Enter ID of searched Customer: "));
-        Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
-        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
-        int h = modelE.getRowCount();
-        for(int j = 0;j < h ;j++) {
-            modelE.removeRow(0);
+        try {
+            Customer cus = lcus.getList().stream().filter(c -> c.getId() == id).collect(Collectors.toList()).get(0);
+            DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+            int h = modelE.getRowCount();
+            for(int j = 0;j < h ;j++) {
+                modelE.removeRow(0);
+            }
+            modelE.addRow(new Object[]{1, cus.getName(), cus.getPhoneNumber()});
+        }catch (NoSuchElementException e){
+            screen.alert1();
         }
-        modelE.addRow(new Object[]{1, cus.getName(), cus.getPhoneNumber()});
     }
     public void showCustomerList(){
         screen.showListCustomers();

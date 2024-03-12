@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -215,6 +216,15 @@ public class Screen extends JFrame implements ActionListener {
             i.getCar().getNumberPlates(), i.getIsDeposit(), i.getStatus()});
         }
 
+        JTable table1 = new JTable(modelE);
+        String[] depositOptions = {"Yes", "No"};
+        JComboBox<String> comboBox = new JComboBox<>(depositOptions);
+
+        TableColumn column = table.getColumnModel().getColumn(6);
+        column.setCellEditor(new DefaultCellEditor(comboBox));
+
+        panel.add(comboBox);
+
         functionBox.add(addBookingbtn);
         functionBox.add(lblSpace1);
         functionBox.add(updateBookingbtn);
@@ -374,5 +384,8 @@ public class Screen extends JFrame implements ActionListener {
     }
     public void alert(){
         JOptionPane.showMessageDialog(this,"Invalid Data","Alert",JOptionPane.WARNING_MESSAGE);
+    }
+    public void alert1(){
+        JOptionPane.showMessageDialog(this,"ID doesn't exit","Alert",JOptionPane.WARNING_MESSAGE);
     }
 }

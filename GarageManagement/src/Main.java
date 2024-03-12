@@ -4,11 +4,15 @@
 
 import view.Handle;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 public class Main {
     public static void main(String[] args) {
-        String n = "Hai Anh1";
-        if(Handle.handleName(n)){
-            System.out.println(n);
+        String p = "HN";
+        if(Handle.handlePlace(p)){
+            System.out.println(p);
         }
     }
 }
