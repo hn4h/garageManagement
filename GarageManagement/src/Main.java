@@ -10,8 +10,8 @@ import java.time.format.DateTimeParseException;
 
 public class Main {
     public static void main(String[] args) {
-        String p = "HN";
-        if(Handle.handlePlace(p)){
+        String p = "a";
+        if(Handle.handleYearOfManufacture(p)){
             System.out.println(p);
         }
     }

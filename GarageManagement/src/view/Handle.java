@@ -148,7 +148,9 @@ public class Handle {
         }
         if(Character.isSpaceChar(name.charAt(0)) || Character.isSpaceChar(name.charAt(name.length()-1))){
             return false;
-        }W
+        }
+        if (!name.matches("[a-zA-Z]+"))
+            return false;
         return true;
     }
 
@@ -187,12 +189,6 @@ public class Handle {
                 return false;
         }
     }
-    public static boolean handleYear(int year){
-        LocalDate date = LocalDate.now();
-        if (year <= date.getYear() && year > 1900){
-            return true;
-        } else return false;
-    }
 
     public static boolean handleNumberPlates(String numberPlates) {
         if (numberPlates == null) {
@@ -210,7 +206,7 @@ public class Handle {
     public static boolean handleMaintainanceSchedule(String maintainenceSchedule) {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDateTime maintainenceSchedule1 = LocalDateTime.parse(maintainenceSchedule, formatter);
+            LocalDate maintainenceSchedule1 = LocalDate.parse(maintainenceSchedule, formatter);
             return true;
         } catch(DateTimeParseException e) {
             System.out.println("Wrong format Date, please reEnter date: ");
@@ -244,12 +240,14 @@ public class Handle {
     return true;
     }
 
-    public static boolean handleYearOfManufacture(String yearOfManufacture) {
+    public static boolean handleYearOfManufacture(String year) {
          try{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
-            LocalDateTime yearOfManufacture1 = LocalDateTime.parse(yearOfManufacture, formatter);
-            return true;
-        } catch(DateTimeParseException e) {
+             LocalDate date = LocalDate.now();
+             int y = Integer.parseInt(year);
+             if (y <= date.getYear() && y > 1900){
+                 return true;
+             } else return false;
+        } catch(NumberFormatException e) {
             System.out.println("Wrong format Date, please reEnter date: ");
             return false;
         }
@@ -258,7 +256,7 @@ public class Handle {
     public static boolean handleBookingDate(String bookingDate) {
         try{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDateTime bookingDateL = LocalDateTime.parse(bookingDate, formatter);
+            LocalDate bookingDateL = LocalDate.parse(bookingDate, formatter);
             return true;
         } catch(DateTimeParseException e) {
             System.out.println("Wrong format Date, please reEnter date: ");
