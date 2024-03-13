@@ -35,9 +35,24 @@ public class ListOfBookings extends ListController<Booking> {
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 String[] data = line.split("\\|");
-                Customer addedCustomer = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(data[5])).collect(Collectors.toList()).get(0);
-                Driver addedDriver = ldrivers.getList().stream().filter(d -> d.getId().equals(data[6])).collect(Collectors.toList()).get(0);
-                Car addedCar = lcar.getList().stream().filter(c -> c.getNumberPlates().equals(data[7])).collect(Collectors.toList()).get(0);
+                Customer addedCustomer;
+                try{
+                    addedCustomer = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(data[5])).collect(Collectors.toList()).get(0);
+                } catch (IndexOutOfBoundsException e){
+                    addedCustomer =     lcus.getList().get(0);
+                }
+                Driver addedDriver;
+                try {
+                    addedDriver = ldrivers.getList().stream().filter(d -> d.getId().equals(data[6])).collect(Collectors.toList()).get(0);
+                } catch (IndexOutOfBoundsException e){
+                    addedDriver = ldrivers.getList().get(0);
+                }
+                Car addedCar;
+                try {
+                    addedCar = lcar.getList().stream().filter(c -> c.getNumberPlates().equals(data[7])).collect(Collectors.toList()).get(0);
+                } catch (IndexOutOfBoundsException e){
+                    addedCar = lcar.getList().get(0);
+                }
                 list.add(new Booking(Integer.parseInt(data[0]), data[1], data[2],data[3], Integer.parseInt(data[4]),
                         addedCustomer,addedDriver, addedCar, data[8], data[9]));
                 nextID = Integer.parseInt(data[0]) + 1;

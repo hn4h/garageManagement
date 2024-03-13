@@ -277,9 +277,9 @@ public class Screen extends JFrame implements ActionListener {
         ArrayList<Driver> driversList = new ArrayList<>();
         driversList = manage.ldrivers.getList();
 
-        for (int i = 0; i < driversList.size(); i++) {
+        for (int i = 1; i < driversList.size(); i++) {
             Driver driver = driversList.get(i);
-            modelE.addRow(new Object[]{(i + 1), driver.getName(), driver.getPhoneNumber(), driver.getId(), driver.getDOB(),
+            modelE.addRow(new Object[]{i, driver.getName(), driver.getPhoneNumber(), driver.getId(), driver.getDOB(),
                     driver.getAccommodation(), driver.getDrivingLicense(),
                     driver.getStatus(), driver.getSalary()});
         }
@@ -328,8 +328,8 @@ public class Screen extends JFrame implements ActionListener {
         JScrollPane sp = new JScrollPane(table);
 
         DefaultTableModel modelE = (DefaultTableModel) table.getModel();
-        for(int i = 0 ; i < manage.lcars.getList().size();i++){
-            modelE.addRow(new Object[]{(i+1), manage.lcars.getList().get(i).getNumberPlates(),
+        for(int i = 1 ; i < manage.lcars.getList().size();i++){
+            modelE.addRow(new Object[]{i, manage.lcars.getList().get(i).getNumberPlates(),
                     manage.lcars.getList().get(i).getType(), manage.lcars.getList().get(i).getMaintenanceSchedule()
                     , manage.lcars.getList().get(i).getCompanyCar(), manage.lcars.getList().get(i).getYear(),
                     manage.lcars.getList().get(i).getStatus()});

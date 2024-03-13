@@ -349,7 +349,15 @@ public class Handle {
             return false;
         }
     }
-    public static boolean handleID(String IDbooking) {
+    public String handleID(String msg){
+        String id = JOptionPane.showInputDialog(null,msg);
+        while (!this.checkID(id)){
+            screen.alert();
+            id = JOptionPane.showInputDialog(null,msg);
+        }
+        return id;
+    }
+    public boolean checkID(String IDbooking) {
         if( !IDbooking.matches("[0-9]+")){
             return false;
         }
