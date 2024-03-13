@@ -15,7 +15,6 @@ public class ListOfDrivers extends ListController<Driver> {
             super();
             filepath = "src/List/ListOfDrivers";
             this.readData();
-
         }
 
         public void readData(){

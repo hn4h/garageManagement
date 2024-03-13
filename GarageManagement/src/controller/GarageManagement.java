@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GarageManagement implements ActionListener {
     public ListOfCustomers lcus;
@@ -134,6 +135,7 @@ public class GarageManagement implements ActionListener {
             }
 
         }
+        this.getSalary();
         lBookings.rewriteData();
         screen.showListBookings();
     }
@@ -414,5 +416,28 @@ public class GarageManagement implements ActionListener {
     }
     public void showCustomerList(){
         screen.showListCustomers();
+    }
+    public void getSalary(){
+        for(Driver i: ldrivers.list){
+            i.setSalary(0);
+        }
+        for( Booking i : lBookings.list){
+            if(i.getStatus().equals("Done")){
+                i.getDriver().setSalary(i.getDriver().getSalary() + (double)i.getDistance()*20000* 0.3);
+//                int index = IntStream.range(0, ldrivers.list.size())
+//                        .filter(driver -> ldrivers.list.get(driver).getId() == i.getDriver().getId())
+//                        .findFirst()
+//                        .orElse(-1);
+                int index = -1;
+                for (Driver j : ldrivers.list){
+                    if(j.getId().equals(i.getDriver().getId())){
+                        index = ldrivers.list.indexOf(j);
+                    }
+                }
+                if (index != -1)
+               ldrivers.list.set(index,i.getDriver());
+            }
+        }
+        ldrivers.rewriteData();
     }
 }
