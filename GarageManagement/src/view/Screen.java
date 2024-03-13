@@ -284,6 +284,14 @@ public class Screen extends JFrame implements ActionListener {
                     driver.getStatus(), driver.getSalary()});
         }
 
+        String[] statusDriverOptions = {"Available", "Unavailable"};
+        JComboBox<String> comboBoxStatusDriver = new JComboBox<>(statusDriverOptions);
+
+        TableColumn columnStatusDriver = table.getColumnModel().getColumn(7);
+        columnStatusDriver.setCellEditor(new DefaultCellEditor(comboBoxStatusDriver));
+
+        panel.add(comboBoxStatusDriver);
+
         functionBox.add(addDriverbtn);
         functionBox.add(lblSpace1);
         functionBox.add(updateDriverbtn);

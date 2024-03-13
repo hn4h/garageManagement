@@ -262,14 +262,13 @@ public class GarageManagement implements ActionListener {
         screen.showListCars();
     }
     public void addDriver(){
-        String name = JOptionPane.showInputDialog(null,"Enter Name of Driver:");
-        String phoneNum = JOptionPane.showInputDialog(null,"Enter Phone Number of Driver:");
-        String id = JOptionPane.showInputDialog(null,"Enter ID of Driver:");
-        String DOB = JOptionPane.showInputDialog(null,"Enter Date Of Birth of Driver:");
-        String accommodation = JOptionPane.showInputDialog(null,"Enter Accommodation of Driver:");
-        String license = JOptionPane.showInputDialog(null,"Enter Driving license of Driver:");
-        String status = JOptionPane.showInputDialog(null,"Enter Status of Driver:");
-        ldrivers.addItem(new Driver(name,phoneNum,id,DOB, accommodation, license, status,0));
+        String name = handle.handleName("Enter Name of Driver");
+        String phoneNum = handle.handlePhoneNumber("Enter Phone Number of Driver:");
+        String id = handle.handleIdDriver("Enter ID of Driver:");
+        String DOB = handle.handleDate("Enter Date Of Birth of Driver:");
+        String accommodation = handle.handlePlace("Enter Accommodation of Driver:");
+        String license = handle.handleDrivingLicense("Enter Driving license of Driver:");
+        ldrivers.addItem(new Driver(name,phoneNum,id,DOB, accommodation, license, "Available",0));
         screen.showListDrivers();
     }
     public void updateDriver(){
@@ -280,12 +279,12 @@ public class GarageManagement implements ActionListener {
                 row[j] = String.valueOf(screen.table.getValueAt(i, j));
             }
             try {
-                Double.parseDouble(row[8]);
+                ldrivers.list.add(new Driver(row[1], row[2], row[3], row[4], row[5], row[6],
+                        row[7], Double.parseDouble(row[8]) ));
             }catch (NumberFormatException e){
-                System.out.println("Invalid format");
+
             }
-            ldrivers.list.add(new Driver(row[1], row[2], row[3], row[4], row[5], row[6],
-                    row[7], Double.parseDouble(row[8]) ));
+
         }
         ldrivers.rewriteData();
         screen.showListDrivers();

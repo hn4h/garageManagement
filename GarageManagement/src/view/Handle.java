@@ -34,15 +34,23 @@ public class Handle {
             return true;
         }
     }
-    public String handleIdDriver(){
-        String id = JOptionPane.showInputDialog(null, "Enter ID of Driverr: ");
+    public String handleIdDriver(String msg){
+        String id = JOptionPane.showInputDialog(null, msg);
         while (!checkIdDriver(id)){
             screen.alert();
-            id = JOptionPane.showInputDialog(null, "Enter ID of Driverr: ");
+            id = JOptionPane.showInputDialog(null, msg);
         }
         return id;
     }
-    public static boolean handleDrivingLicense(String license){
+    public String handleDrivingLicense(String msg){
+        String license = JOptionPane.showInputDialog(null, msg);
+        while (!checkIdDriver(license)){
+            screen.alert();
+            license = JOptionPane.showInputDialog(null, msg);
+        }
+        return license;
+    }
+    public boolean checkDrivingLicense(String license){
         boolean flag = false;
         String[] l = license.split(",");
     for (String lValue : l) {
