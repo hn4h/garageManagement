@@ -112,6 +112,12 @@ public class GarageManagement implements ActionListener {
                 handle.checkPlace(row[3]) && handle.checkDistance(Integer.parseInt(row[4]))){
                     lBookings.list.add(new Booking(Integer.parseInt(row[0]), row[1], row[2],row[3], Integer.parseInt(row[4]),
                             addedCus,addedDriver, addedCar, row[8], row[9]));
+                }else {
+                    screen.alert();
+                    lBookings.list.clear();
+                    lBookings.readData();
+                    screen.showListBookings();
+                    return;
                 }
             } catch (IndexOutOfBoundsException e){
                 screen.alert1();
@@ -123,7 +129,7 @@ public class GarageManagement implements ActionListener {
                 screen.alert();
                 lBookings.list.clear();
                 lBookings.readData();
-                screen.showListCustomers();
+                screen.showListBookings();
                 return;
             }
 
@@ -175,13 +181,12 @@ public class GarageManagement implements ActionListener {
         screen.showListBookings();
     }
     public void addCar(){
-        String numPlate = JOptionPane.showInputDialog(null,"Enter number plate of Car:");
-        String type = JOptionPane.showInputDialog(null,"Enter type of Car:");
-        String maintenanceSchedule = JOptionPane.showInputDialog(null,"Enter maintenance schedule of Car:");
-        String carMaker = JOptionPane.showInputDialog(null,"Enter carmaker of Car:");
-        int year = Integer.parseInt(JOptionPane.showInputDialog(null,"Enter year manufacture of Car:"));
-        String status = JOptionPane.showInputDialog(null,"Enter status of Car:");
-        lcars.addItem(new Car(numPlate, type, maintenanceSchedule, carMaker, year, status));
+        String numPlate = handle.handleNumberPlate("Enter number plate of Car:");
+        String type = handle.handleType("Enter type of Car:");
+        String maintenanceSchedule = handle.handleDate("Enter maintenance schedule of Car:");
+        String carMaker = handle.handleCompanyCar("Enter CarMaker of Car:");
+        int year = Integer.parseInt(handle.handleYearOfManufacture("Enter year manufacture of Car:"));
+        lcars.addItem(new Car(numPlate, type, maintenanceSchedule, carMaker, year, "Available"));
         screen.showListCars();
     }
     public void updateCar(){
@@ -191,32 +196,66 @@ public class GarageManagement implements ActionListener {
             for (int j = 0; j < screen.table.getColumnCount(); j++) {
                 row[j] = String.valueOf(screen.table.getValueAt(i, j));
             }
-            lcars.list.add(new Car(row[1], row[2], row[3], row[4], Integer.parseInt(row[5]), row[6]));
+            try {
+                if(handle.checkNumberPlates(row[1]) && handle.checkType(row[2]) && handle.checkDate(row[3]) &&
+                        handle.checkCompanyCar(row[4]) && handle.checkYearOfManufacture(row[5]))
+                lcars.list.add(new Car(row[1], row[2], row[3], row[4], Integer.parseInt(row[5]), row[6]));
+                else {
+                    screen.alert();
+                    lcars.list.clear();
+                    lcars.readData();
+                    screen.showListCars();
+                    return;
+                }
+            } catch (NumberFormatException e){
+                screen.alert();
+                lcars.list.clear();
+                lcars.readData();
+                screen.showListCars();
+                return;
+            }
+
         }
         lcars.rewriteData();
         screen.showListCars();
     }
     public void removeCar(){
-        String id = JOptionPane.showInputDialog(null, "Enter number plate of removed Car: ");
-        Car car = lcars.getList().stream().filter(b -> b.getNumberPlates().equals(id)).collect(Collectors.toList()).get(0);
-        lcars.removeItem(car);
-        screen.showListCars();
+        try {
+            String id = handle.handleNumberPlate("Enter number plate of removed Car: ");
+            Car car = lcars.getList().stream().filter(b -> b.getNumberPlates().equals(id)).collect(Collectors.toList()).get(0);
+            lcars.removeItem(car);
+            screen.showListCars();
+        } catch (NoSuchElementException e){
+            screen.alert1();
+        } catch (NumberFormatException e){
+            screen.alert();
+        } catch (IndexOutOfBoundsException e){
+            screen.alert1();
+        }
     }
     public void searchCar(){
-        String id = JOptionPane.showInputDialog(null, "Enter number plate of searched Car: ");
-        Car car = lcars.getList().stream().filter(b -> b.getNumberPlates().equals(id)).collect(Collectors.toList()).get(0);
-        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
-        int h = modelE.getRowCount();
-        for(int j = 0;j < h ;j++) {
-            modelE.removeRow(0);
-        }
-        for(int i = 0 ; i < lcars.getList().size();i++) {
-            if (lcars.getList().get(i).getNumberPlates().equals(car.getNumberPlates())) {
-                modelE.addRow(new Object[]{(i + 1), lcars.getList().get(i).getNumberPlates(),
-                        lcars.getList().get(i).getType(), lcars.getList().get(i).getMaintenanceSchedule()
-                        , lcars.getList().get(i).getCompanyCar(), lcars.getList().get(i).getYear(),
-                        lcars.getList().get(i).getStatus()});
+        try {
+            String id = handle.handleNumberPlate("Enter number plate of searched Car: ");
+            Car car = lcars.getList().stream().filter(b -> b.getNumberPlates().equals(id)).collect(Collectors.toList()).get(0);
+            DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+            int h = modelE.getRowCount();
+            for(int j = 0;j < h ;j++) {
+                modelE.removeRow(0);
             }
+            for(int i = 0 ; i < lcars.getList().size();i++) {
+                if (lcars.getList().get(i).getNumberPlates().equals(car.getNumberPlates())) {
+                    modelE.addRow(new Object[]{(i + 1), lcars.getList().get(i).getNumberPlates(),
+                            lcars.getList().get(i).getType(), lcars.getList().get(i).getMaintenanceSchedule()
+                            , lcars.getList().get(i).getCompanyCar(), lcars.getList().get(i).getYear(),
+                            lcars.getList().get(i).getStatus()});
+                }
+            }
+        } catch (NoSuchElementException e){
+            screen.alert1();
+        } catch (NumberFormatException e){
+            screen.alert();
+        } catch (IndexOutOfBoundsException e){
+            screen.alert1();
         }
     }
     public void showCarList(){

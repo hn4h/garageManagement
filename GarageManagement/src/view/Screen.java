@@ -327,6 +327,14 @@ public class Screen extends JFrame implements ActionListener {
                     manage.lcars.getList().get(i).getStatus()});
         }
 
+        String[] statusCarOptions = {"Available", "Operating", "Repairing", "Unavailable"};
+        JComboBox<String> comboBoxStatusCar = new JComboBox<>(statusCarOptions);
+
+        TableColumn columnStatusCar = table.getColumnModel().getColumn(6);
+        columnStatusCar.setCellEditor(new DefaultCellEditor(comboBoxStatusCar));
+
+        panel.add(comboBoxStatusCar);
+
         functionBox.add(addCarbtn);
         functionBox.add(lblSpace1);
         functionBox.add(updateCarbtn);

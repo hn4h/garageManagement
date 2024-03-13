@@ -119,6 +119,7 @@ public class Handle {
     public String handleDate(String msg){
         String date = JOptionPane.showInputDialog(null,msg);
         while (!checkDate(date)){
+            System.out.println(msg);
             screen.alert();
             date = JOptionPane.showInputDialog(null,msg);
         }
@@ -131,7 +132,6 @@ public class Handle {
             LocalDate dateL = LocalDate.parse(date, formatter);
             return true;
         } catch(DateTimeParseException e) {
-            System.out.println("Wrong format Date, please reEnter date: ");
             return false;
         }
     }
@@ -235,17 +235,25 @@ public class Handle {
         }
     }
 
-    public static boolean handleNumberPlates(String numberPlates) {
+    public boolean checkNumberPlates(String numberPlates) {
         if (numberPlates == null) {
+            System.out.println(numberPlates);
         return false;
     }
-    for (int i = 0; i < numberPlates.length(); i++) {
-        char ch = numberPlates.charAt(i);
-        if (!Character.isLetterOrDigit(ch) && ch != '-') {
-            return false;
-        }
+    if (!numberPlates.matches("[a-zA-Z-0-9]+")){
+        System.out.println(numberPlates);
+        return false;
     }
     return true;
+    }
+    public String handleNumberPlate(String msg){
+        String numPlate = JOptionPane.showInputDialog(null,msg);
+        while (!this.checkNumberPlates(numPlate)){
+            System.out.println(msg);
+            screen.alert();
+            numPlate = JOptionPane.showInputDialog(null,msg);
+        }
+        return numPlate;
     }
 
     public static boolean handleMaintainanceSchedule(String maintainenceSchedule) {
@@ -254,38 +262,58 @@ public class Handle {
             LocalDate maintainenceSchedule1 = LocalDate.parse(maintainenceSchedule, formatter);
             return true;
         } catch(DateTimeParseException e) {
-            System.out.println("Wrong format Date, please reEnter date: ");
             return false;
         }
     }
-
-    public static boolean handleType(String type) {
+    public String handleType(String msg){
+        String type = JOptionPane.showInputDialog(null,msg);
+        while (!this.checkType(type)){
+            screen.alert();
+            type = JOptionPane.showInputDialog(null,msg);
+        }
+        return type;
+    }
+    public boolean checkType(String type) {
         if(type == null){
+            System.out.println(type);
             return false;
         }
-        for (int i = 0; i < type.length(); i++) {
-        char ch = type.charAt(i);
-        if (!Character.isLetter(ch) && ch != ' ') {
+        if (!type.matches("[a-zA-Z0-9]+")) {
+            System.out.println(type);
             return false;
         }
-    }
+
     return true;
     }
-
-    public static boolean handleCompanyCar(String companyCar) {
+    public String handleCompanyCar(String msg){
+        String comCar = JOptionPane.showInputDialog(null,msg);
+        while (!this.checkCompanyCar(comCar)){
+            screen.alert();
+            comCar = JOptionPane.showInputDialog(null,msg);
+        }
+        return comCar;
+    }
+    public boolean checkCompanyCar(String companyCar) {
         if(companyCar == null){
+            System.out.println(companyCar);
             return false;
         }
-        for (int i = 0; i < companyCar.length(); i++) {
-        char ch = companyCar.charAt(i);
-        if (!Character.isLetter(ch) && ch != ' ') {
+        if (!companyCar.matches("[a-zA-Z0-9]+")) {
+            System.out.println(companyCar);
             return false;
         }
-    }
+
     return true;
     }
-
-    public static boolean handleYearOfManufacture(String year) {
+    public String handleYearOfManufacture(String msg){
+        String year = JOptionPane.showInputDialog(null,msg);
+        while (!this.checkYearOfManufacture(year)){
+            screen.alert();
+            year = JOptionPane.showInputDialog(null,msg);
+        }
+        return year;
+    }
+    public boolean checkYearOfManufacture(String year) {
          try{
              LocalDate date = LocalDate.now();
              int y = Integer.parseInt(year);
@@ -293,7 +321,6 @@ public class Handle {
                  return true;
              } else return false;
         } catch(NumberFormatException e) {
-            System.out.println("Wrong format Date, please reEnter date: ");
             return false;
         }
     }
