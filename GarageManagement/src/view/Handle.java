@@ -44,7 +44,7 @@ public class Handle {
     }
     public String handleDrivingLicense(String msg){
         String license = JOptionPane.showInputDialog(null, msg);
-        while (!checkIdDriver(license)){
+        while (!checkDrivingLicense(license)){
             screen.alert();
             license = JOptionPane.showInputDialog(null, msg);
         }
@@ -117,11 +117,17 @@ public class Handle {
         return true;
     }
 
-    public static boolean handleSalary(double salary) {
-        if(salary < 0) {
+    public boolean checkSalary(String s) {
+        try{
+            double salary = Double.parseDouble(s);
+            if(salary < 0) {
+                return false;
+            }
+            return true;
+        }
+        catch (NumberFormatException e){
             return false;
         }
-        return true;
     }
 
     public String handleDate(String msg){

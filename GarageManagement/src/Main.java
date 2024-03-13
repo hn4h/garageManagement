@@ -14,8 +14,8 @@ import java.time.format.DateTimeParseException;
 
 public class Main {
     public static void main(String[] args) {
-        String date = "13/03/2024";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dateL = LocalDate.parse(date, formatter);
+        String s = "B2";
+        Handle handle = new Handle(new Screen());
+        System.out.println(handle.checkDrivingLicense(s));
     }
 }

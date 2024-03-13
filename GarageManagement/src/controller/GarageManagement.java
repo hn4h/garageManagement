@@ -279,10 +279,23 @@ public class GarageManagement implements ActionListener {
                 row[j] = String.valueOf(screen.table.getValueAt(i, j));
             }
             try {
+                if(handle.checkName(row[1]) && handle.checkPhoneNumber(row[2]) && handle.checkIdDriver(row[3]) && handle.checkDate(row[4]) &&
+                        handle.checkPlace(row[5]) && handle.checkDrivingLicense(row[6]) && handle.checkSalary(row[8]))
                 ldrivers.list.add(new Driver(row[1], row[2], row[3], row[4], row[5], row[6],
                         row[7], Double.parseDouble(row[8]) ));
+                else {
+                    screen.alert();
+                    ldrivers.list.clear();
+                    ldrivers.readData();
+                    screen.showListDrivers();
+                    return;
+                }
             }catch (NumberFormatException e){
-
+                screen.alert();
+                ldrivers.list.clear();
+                ldrivers.readData();
+                screen.showListDrivers();
+                return;
             }
 
         }
@@ -290,22 +303,38 @@ public class GarageManagement implements ActionListener {
         screen.showListDrivers();
     }
     public void removeDriver(){
-        String id = JOptionPane.showInputDialog(null,"Enter ID of removed Driver:");
-        Driver driver = ldrivers.getList().stream().filter(d -> d.getId().equals(id)).collect(Collectors.toList()).get(0);
-        ldrivers.removeItem(driver);
-        screen.showListDrivers();
+        try {
+            String id = JOptionPane.showInputDialog(null,"Enter ID of removed Driver:");
+            Driver driver = ldrivers.getList().stream().filter(d -> d.getId().equals(id)).collect(Collectors.toList()).get(0);
+            ldrivers.removeItem(driver);
+            screen.showListDrivers();
+        }catch (NoSuchElementException e){
+            screen.alert1();
+        } catch (NumberFormatException e){
+            screen.alert();
+        } catch (IndexOutOfBoundsException e){
+            screen.alert1();
+        }
     }
     public void searchDriver(){
-        String id = JOptionPane.showInputDialog(null,"Enter ID of searched Driver:");
-        Driver driver = ldrivers.getList().stream().filter(d -> d.getId().equals(id)).collect(Collectors.toList()).get(0);
-        DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
-        int h = modelE.getRowCount();
-        for(int j = 0;j < h ;j++) {
-           modelE.removeRow(0);
-        }
-        modelE.addRow(new Object[]{1, driver.getName(), driver.getPhoneNumber(), driver.getId(), driver.getDOB(),
-                   driver.getAccommodation(), driver.getDrivingLicense(),
+        try {
+            String id = JOptionPane.showInputDialog(null,"Enter ID of searched Driver:");
+            Driver driver = ldrivers.getList().stream().filter(d -> d.getId().equals(id)).collect(Collectors.toList()).get(0);
+            DefaultTableModel modelE = (DefaultTableModel) screen.table.getModel();
+            int h = modelE.getRowCount();
+            for(int j = 0;j < h ;j++) {
+                modelE.removeRow(0);
+            }
+            modelE.addRow(new Object[]{1, driver.getName(), driver.getPhoneNumber(), driver.getId(), driver.getDOB(),
+                    driver.getAccommodation(), driver.getDrivingLicense(),
                     driver.getStatus(), driver.getSalary()});
+        } catch (NoSuchElementException e){
+            screen.alert1();
+        } catch (NumberFormatException e){
+            screen.alert();
+        } catch (IndexOutOfBoundsException e){
+            screen.alert1();
+        }
         }
 
 
