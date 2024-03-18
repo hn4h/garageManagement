@@ -7,11 +7,12 @@ public class Car {
     private String companyCar;
     private int year;
     private String status;
-
+    private int id;
     public Car() {
     }
 
-    public Car(String numberPlates, String type, String maintenanceSchedule, String companyCar, int year, String status) {
+    public Car(int id, String numberPlates, String type, String maintenanceSchedule, String companyCar, int year, String status) {
+        this.id = id;
         this.numberPlates = numberPlates;
         this.type = type;
         this.maintenanceSchedule = maintenanceSchedule;
@@ -66,5 +67,13 @@ public class Car {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

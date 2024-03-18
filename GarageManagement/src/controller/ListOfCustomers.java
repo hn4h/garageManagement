@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ListOfCustomers extends ListController<Customer> {
-    private int nextID;
     public ListOfCustomers(){
         super();
         filepath = "src/List/ListOfCustomers";
@@ -90,10 +89,6 @@ public class ListOfCustomers extends ListController<Customer> {
     public ArrayList<Customer> getList() {
         this.readData();
         return list;
-    }
-    public void clearData(){
-        list.clear();
-        this.rewriteData();
     }
     public int getNextID(){
         return nextID;

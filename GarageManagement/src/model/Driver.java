@@ -1,19 +1,20 @@
 package model;
 
 public class Driver extends Person{
-    private String id;
+    private String NumberId;
     private String DOB;
     private String accommodation;
     private String drivingLicense;
     private String status;
     private double salary;
-
+    private int id;
     public Driver() {
     }
 
-    public Driver(String name, String phoneNumber, String id, String DOB, String accommodation, String drivingLicense, String status, double salary) {
+    public Driver(int id ,String name, String phoneNumber, String NumberId, String DOB, String accommodation, String drivingLicense, String status, double salary) {
         super(name, phoneNumber);
         this.id = id;
+        this.NumberId = NumberId;
         this.DOB = DOB;
         this.accommodation = accommodation;
         this.drivingLicense = drivingLicense;
@@ -29,13 +30,10 @@ public class Driver extends Person{
         this.salary = salary;
     }
 
-    public String getId() {
-        return id;
+    public int getId() {
+        return this.id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getDOB() {
         return DOB;
@@ -71,6 +69,16 @@ public class Driver extends Person{
     public void displayDriver(){
         System.out.printf(" ");
     }
+
+    public String getNumberId() {
+        return NumberId;
+    }
+
+    public void setNumberId(String numberId) {
+        NumberId = numberId;
+    }
+
+
 
     @Override
     public String toString() {

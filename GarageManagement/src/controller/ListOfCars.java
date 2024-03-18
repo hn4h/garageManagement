@@ -14,6 +14,7 @@ public class ListOfCars extends ListController<Car>{
     public ListOfCars(){
         super();
         filepath = "src/List/ListOfCars";
+        super.nextID = 1;
         this.readData();
     }
     public void readData(){
@@ -23,7 +24,8 @@ public class ListOfCars extends ListController<Car>{
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 String data[] = line.split("\\|");
-                list.add(new Car(data[0],data[1], data[2],data[3], Integer.parseInt(data[4]), data[5]));
+                list.add(new Car(Integer.parseInt(data[0]),data[1], data[2],data[3], data[4], Integer.parseInt(data[5]), data[6]));
+                super.nextID = Integer.parseInt(data[0]) + 1;
             }
             scanner.close();
         }catch (FileNotFoundException e){
@@ -38,11 +40,11 @@ public class ListOfCars extends ListController<Car>{
             FileWriter writer = new FileWriter(filepath, true);
             scanner = new Scanner(new File(filepath));
             if(!scanner.hasNextLine()){
-                writer.write( item.getNumberPlates() + "|" + item.getType() + "|"
+                writer.write( nextID + "|" + item.getNumberPlates() + "|" + item.getType() + "|"
                     + item.getMaintenanceSchedule() + "|" + item.getCompanyCar() + "|" + item.getYear() +
                     "|" + item.getStatus());
             }else {
-                writer.write( "\n" + item.getNumberPlates() + "|" + item.getType() + "|"
+                writer.write( "\n" + nextID + "|" + item.getNumberPlates() + "|" + item.getType() + "|"
                         + item.getMaintenanceSchedule() + "|" + item.getCompanyCar() + "|" + item.getYear() +
                         "|" + item.getStatus());
             }
@@ -68,9 +70,16 @@ public class ListOfCars extends ListController<Car>{
         try {
             FileWriter writer = new FileWriter(filepath);
             for(Car i : list){
-                writer.write( i.getNumberPlates() + "|" + i.getType() + "|"
-                        + i.getMaintenanceSchedule() + "|" + i.getCompanyCar() + "|" +
-                        i.getYear() + "|" + i.getStatus() + "\n");
+                if(list.get(list.size() - 1).getId() == i.getId()){
+                    writer.write( i.getId() + "|" + i.getNumberPlates() + "|" + i.getType() + "|"
+                            + i.getMaintenanceSchedule() + "|" + i.getCompanyCar() + "|" +
+                            i.getYear() + "|" + i.getStatus());               nextID = i.getId() + 1;
+                }
+                else {
+                    writer.write(i.getId() + "|" + i.getNumberPlates() + "|" + i.getType() + "|"
+                            + i.getMaintenanceSchedule() + "|" + i.getCompanyCar() + "|" +
+                            i.getYear() + "|" + i.getStatus() + "\n");
+                }
             }
             writer.close();
         } catch (IOException e) {

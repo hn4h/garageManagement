@@ -1,7 +1,6 @@
 package view;
 import controller.GarageManagement;
 import model.Booking;
-import model.Car;
 import model.Customer;
 import model.Driver;
 
@@ -10,8 +9,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-import javax.xml.validation.Validator;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -214,7 +211,9 @@ public class Screen extends JFrame implements ActionListener {
         JScrollPane sp = new JScrollPane(table);
 
         DefaultTableModel modelE = (DefaultTableModel) table.getModel();
-        for(Booking i : manage.lBookings.getList()){
+        manage.lBookings.readData();
+        ArrayList<Booking> bookingList = new ArrayList<Booking>(manage.lBookings.getList());
+        for(Booking i : bookingList){
             modelE.addRow(new Object[]{i.getIDbooking(), i.getDate(), i.getStart(),
             i.getDestination(), i.getDistance(), i.getCustomer().getId(), i.getDriver().getId(),
             i.getCar().getNumberPlates(), i.getIsDeposit(), i.getStatus()});
@@ -256,15 +255,15 @@ public class Screen extends JFrame implements ActionListener {
         container.repaint();
         selectListBox.setBorder(new TitledBorder(null,"List Of Drivers",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
-        String[] columnNames = {"No", "Name", "Phone Number", "Id", "DOB",
+        String[] columnNames = {"ID", "Name", "Phone Number", "No Id", "DOB",
                 "Accommodation", "Driving License", "Status", "Salary"};
         table = new JTable();
         table.setModel(new DefaultTableModel(new Object[][]{}, columnNames));
-        table.getColumnModel().getColumn(0).setPreferredWidth(10);
+        table.getColumnModel().getColumn(0).setPreferredWidth(20);
         table.getColumnModel().getColumn(1).setPreferredWidth(150);
         table.getColumnModel().getColumn(2).setPreferredWidth(150);
         table.getColumnModel().getColumn(3).setPreferredWidth(100);
-        table.getColumnModel().getColumn(4).setPreferredWidth(200);
+        table.getColumnModel().getColumn(4).setPreferredWidth(100);
         table.getColumnModel().getColumn(5).setPreferredWidth(100);
         table.getColumnModel().getColumn(6).setPreferredWidth(150);
         table.getColumnModel().getColumn(7).setPreferredWidth(150);
@@ -279,7 +278,7 @@ public class Screen extends JFrame implements ActionListener {
 
         for (int i = 0; i < driversList.size(); i++) {
             Driver driver = driversList.get(i);
-            modelE.addRow(new Object[]{(i + 1), driver.getName(), driver.getPhoneNumber(), driver.getId(), driver.getDOB(),
+            modelE.addRow(new Object[]{driver.getId(), driver.getName(), driver.getPhoneNumber(), driver.getNumberId(), driver.getDOB(),
                     driver.getAccommodation(), driver.getDrivingLicense(),
                     driver.getStatus(), driver.getSalary()});
         }
@@ -313,7 +312,7 @@ public class Screen extends JFrame implements ActionListener {
         selectListBox.setBorder(new TitledBorder(null,"List Of Cars",
                 TitledBorder.LEADING, TitledBorder.TOP,null,null));
 
-        String[] columnNames = {"No", "Number Plate", "Type", "Maintenance Schedule",
+        String[] columnNames = {"ID", "Number Plate", "Type", "Maintenance Schedule",
                 "Car Maker", "Year of Manufacture", "Status"};
         table = new JTable();
         table.setModel(new DefaultTableModel(new Object[][]{}, columnNames));
@@ -328,8 +327,9 @@ public class Screen extends JFrame implements ActionListener {
         JScrollPane sp = new JScrollPane(table);
 
         DefaultTableModel modelE = (DefaultTableModel) table.getModel();
-        for(int i = 0 ; i < manage.lcars.getList().size();i++){
-            modelE.addRow(new Object[]{(i+1), manage.lcars.getList().get(i).getNumberPlates(),
+        for(int i = 1 ; i < manage.lcars.getList().size();i++){
+            modelE.addRow(new Object[]{manage.lcars.getList().get(i).getId(), manage.lcars.getList().get(i).getNumberPlates(),
+
                     manage.lcars.getList().get(i).getType(), manage.lcars.getList().get(i).getMaintenanceSchedule()
                     , manage.lcars.getList().get(i).getCompanyCar(), manage.lcars.getList().get(i).getYear(),
                     manage.lcars.getList().get(i).getStatus()});
@@ -377,6 +377,7 @@ public class Screen extends JFrame implements ActionListener {
         ArrayList<Customer> cusList = new ArrayList<>(manage.lcus.getList());
         DefaultTableModel modelE = (DefaultTableModel) table.getModel();
         for(Customer i : cusList){
+            if(i.getId() != 0)
             modelE.addRow(new Object[]{ i.getId(), i.getName(), i.getPhoneNumber()});
         }
 
@@ -407,10 +408,22 @@ public class Screen extends JFrame implements ActionListener {
             this.showListCustomers();
         }
     }
-    public void alert(){
-        JOptionPane.showMessageDialog(this,"Invalid Data","Alert",JOptionPane.WARNING_MESSAGE);
+    public void alert(String msg){
+        JOptionPane.showMessageDialog(this,msg,"Alert",JOptionPane.WARNING_MESSAGE);
     }
-    public void alert1(){
+    public void alertIDNotExist(){
         JOptionPane.showMessageDialog(this,"ID doesn't exit","Alert",JOptionPane.WARNING_MESSAGE);
+    }
+    public void notifyUpdateSuccessfully(){
+        JOptionPane.showMessageDialog(this,"Update Successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void notifyRemoveSuccessfully(){
+        JOptionPane.showMessageDialog(this,"Remove Successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void notifyAddSuccessfully(){
+        JOptionPane.showMessageDialog(this,"Add Successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+    }
+    public void alertNull(){
+        JOptionPane.showMessageDialog(this,"Input must ","Alert",JOptionPane.WARNING_MESSAGE);
     }
 }

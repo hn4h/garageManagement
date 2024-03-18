@@ -107,4 +107,20 @@ public class Booking {
     public void setIsDeposit(String isDeposit) {
         this.isDeposit = isDeposit;
     }
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "IDbooking=" + IDbooking +
+                ", date='" + date + '\'' +
+                ", start='" + start + '\'' +
+                ", destination='" + destination + '\'' +
+                ", distance=" + distance +
+                ", customer=" + customer.getId() +
+                ", driver=" + driver.getId() +
+                ", car=" + car.getNumberPlates() +
+                ", isDeposit='" + isDeposit + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

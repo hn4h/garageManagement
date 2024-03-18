@@ -9,7 +9,8 @@ import java.util.Scanner;
 public abstract class ListController<T> {
         protected ArrayList<T> list;
         protected String filepath;
-        Scanner scanner;
+        protected Scanner scanner;
+        protected int nextID;
 
     public ListController(){
             list = new ArrayList<>();
@@ -30,5 +31,11 @@ public abstract class ListController<T> {
     public ArrayList<T> getList() {
 
         return list;
+    }
+    public abstract void readData();
+    public abstract void rewriteData();
+
+    public int getNextID() {
+        return nextID;
     }
 }

@@ -11,9 +11,11 @@ import java.util.Scanner;
 
 public class ListOfDrivers extends ListController<Driver> {
 
+
         public ListOfDrivers(){
             super();
             filepath = "src/List/ListOfDrivers";
+            nextID = 1;
             this.readData();
         }
 
@@ -24,7 +26,8 @@ public class ListOfDrivers extends ListController<Driver> {
                 while(scanner.hasNextLine()){
                     String line = scanner.nextLine();
                     String data[] = line.split("\\|");
-                    list.add(new Driver(data[0],data[1], data[2],data[3], data[4], data[5],data[6],Double.parseDouble(data[7])));
+                    list.add(new Driver(Integer.parseInt(data[0]),data[1], data[2], data[3], data[4], data[5],data[6],data[7],Double.parseDouble(data[8])));
+                    nextID = Integer.parseInt(data[0]) + 1;
                 }
                 scanner.close();
             }catch (FileNotFoundException e){
@@ -39,14 +42,16 @@ public class ListOfDrivers extends ListController<Driver> {
             FileWriter writer = new FileWriter(filepath, true);
             scanner = new Scanner(new File(filepath));
             if(!scanner.hasNextLine()){
-                writer.write(item.getName() + "|" + item.getPhoneNumber() + "|"
-                        + item.getId() + "|" + item.getDOB() + "|" + item.getAccommodation() + "|" +
+                writer.write(nextID + "|" + item.getName() + "|" + item.getPhoneNumber() + "|"
+                        + item.getNumberId() + "|" + item.getDOB() + "|" + item.getAccommodation() + "|" +
                         item.getDrivingLicense() + "|" + item.getStatus() + "|0");
+                nextID ++;
             }
             else{
-                writer.write( "\n" + item.getName() + "|" + item.getPhoneNumber() + "|"
-                        + item.getId() + "|" + item.getDOB() + "|" + item.getAccommodation() + "|" +
+                writer.write( "\n" + nextID + "|" + item.getName() + "|" + item.getPhoneNumber() + "|"
+                        + item.getNumberId() + "|" + item.getDOB() + "|" + item.getAccommodation() + "|" +
                         item.getDrivingLicense() + "|" + item.getStatus() + "|0");
+                nextID++;
             }
             scanner.close();
             writer.close();
@@ -70,9 +75,16 @@ public class ListOfDrivers extends ListController<Driver> {
         try {
             FileWriter writer = new FileWriter(filepath);
             for(Driver i : list){
-                writer.write( i.getName() + "|" + i.getPhoneNumber() + "|"
-                        + i.getId() + "|" + i.getDOB() + "|" + i.getAccommodation() + "|" +
-                        i.getDrivingLicense() + "|" + i.getStatus() + "|" + i.getSalary() + "\n");
+                if(list.get(list.size() - 1).getId() == i.getId()){
+                    writer.write( i.getId() + "|" + i.getName() + "|" + i.getPhoneNumber() + "|"
+                            + i.getNumberId() + "|" + i.getDOB() + "|" + i.getAccommodation() + "|" +
+                            i.getDrivingLicense() + "|" + i.getStatus() + "|" + i.getSalary());
+                    nextID = i.getId() + 1;
+                }else {
+                    writer.write( i.getId() + "|" + i.getName() + "|" + i.getPhoneNumber() + "|"
+                            + i.getNumberId() + "|" + i.getDOB() + "|" + i.getAccommodation() + "|" +
+                            i.getDrivingLicense() + "|" + i.getStatus() + "|" + i.getSalary() + "\n");
+                }
             }
             writer.close();
         } catch (IOException e) {
@@ -84,5 +96,8 @@ public class ListOfDrivers extends ListController<Driver> {
     public ArrayList<Driver> getList() {
             this.readData();
         return list;
+    }
+    public int getNextID(){
+            return nextID;
     }
 }
