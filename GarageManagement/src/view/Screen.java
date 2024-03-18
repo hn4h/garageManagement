@@ -276,7 +276,7 @@ public class Screen extends JFrame implements ActionListener {
         ArrayList<Driver> driversList = new ArrayList<>();
         driversList = manage.ldrivers.getList();
 
-        for (int i = 0; i < driversList.size(); i++) {
+        for (int i = 1; i < driversList.size(); i++) {
             Driver driver = driversList.get(i);
             modelE.addRow(new Object[]{driver.getId(), driver.getName(), driver.getPhoneNumber(), driver.getNumberId(), driver.getDOB(),
                     driver.getAccommodation(), driver.getDrivingLicense(),

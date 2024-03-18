@@ -94,6 +94,7 @@ public class GarageManagement implements ActionListener {
     public void updateBooking(){
 //        ArrayList<Booking> temp = new ArrayList<>(lBookings.getList());
 //        lBookings.list.clear();
+        Boolean check = true;
         for (int i = 0; i < screen.table.getRowCount(); i++) {
             String[] row = new String[screen.table.getColumnCount()];
             for (int j = 0; j < screen.table.getColumnCount(); j++) {
@@ -104,19 +105,25 @@ public class GarageManagement implements ActionListener {
                 try{
                     addedCustomer = lcus.getList().stream().filter(cus -> cus.getId() == Integer.parseInt(row[5])).collect(Collectors.toList()).get(0);
                 } catch (IndexOutOfBoundsException e){
-                    addedCustomer = lcus.getList().get(0);
+                    screen.alert("ID of Customer doesn't exits");
+                    check = false;
+                    addedCustomer = lBookings.list.get(Integer.parseInt(row[0])).getCustomer();
                 }
                 Driver addedDriver;
                 try {
                     addedDriver = ldrivers.getList().stream().filter(d -> d.getId() == Integer.parseInt(row[6])).collect(Collectors.toList()).get(0);
                 } catch (IndexOutOfBoundsException e){
-                    addedDriver = ldrivers.getList().get(0);
+                    screen.alert("ID of Driver doesn't exits");
+                    check = false;
+                    addedDriver = lBookings.list.get(Integer.parseInt(row[0])).getDriver();
                 }
                 Car addedCar;
                 try {
                     addedCar = lcars.getList().stream().filter(c -> c.getNumberPlates().equals(row[7])).collect(Collectors.toList()).get(0);
                 } catch (IndexOutOfBoundsException e){
-                    addedCar = lcars.getList().get(0);
+                    screen.alert("No Plates of Car doesn't exits");
+                    check = false;
+                    addedCar = lBookings.list.get(Integer.parseInt(row[0])).getCar();
                 }
                 Booking booking = lBookings.list.stream().filter(booking1 -> booking1.getIDbooking() == Integer.parseInt(row
                 [0])).collect(Collectors.toList()).get(0);
@@ -135,7 +142,6 @@ public class GarageManagement implements ActionListener {
                     return;
                 }
             } catch (IndexOutOfBoundsException e){
-                screen.alertIDNotExist();
                 lBookings.list.clear();
                 lBookings.readData();
                 screen.showListBookings();
@@ -151,7 +157,9 @@ public class GarageManagement implements ActionListener {
         }
         this.getSalary();
         lBookings.rewriteData();
-        screen.notifyUpdateSuccessfully();
+        if(check){
+            screen.notifyUpdateSuccessfully();
+        }
         screen.showListBookings();
     }
     public void removeBooking(){
@@ -459,11 +467,7 @@ public class GarageManagement implements ActionListener {
         }
         for( Booking i : lBookings.list){
             if(i.getStatus().equals("Done")){
-                i.getDriver().setSalary(i.getDriver().getSalary() + (double)i.getDistance()*20000* 0.3);
-//                int index = IntStream.range(0, ldrivers.list.size())
-//                        .filter(driver -> ldrivers.list.get(driver).getId() == i.getDriver().getId())
-//                        .findFirst()
-//                        .orElse(-1);
+
                 int index = -1;
                 for (Driver j : ldrivers.list){
                     if(j.getId() == i.getDriver().getId()){

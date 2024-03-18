@@ -384,9 +384,10 @@ public class Handle {
 
     public int handleDistance(String msg){
         int d = -1;
+        String distance = JOptionPane.showInputDialog(null, msg);
         while(!checkDistance(d)){
         try {
-            String distance = JOptionPane.showInputDialog(null, msg);
+            distance = JOptionPane.showInputDialog(null, msg);
             d = Integer.parseInt(distance);
             if (checkDistance(d)) break;
         }catch (NumberFormatException e){
