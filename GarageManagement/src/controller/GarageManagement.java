@@ -467,15 +467,12 @@ public class GarageManagement implements ActionListener {
         }
         for( Booking i : lBookings.list){
             if(i.getStatus().equals("Done")){
-
-                int index = -1;
                 for (Driver j : ldrivers.list){
                     if(j.getId() == i.getDriver().getId()){
-                        index = ldrivers.list.indexOf(j);
+                        double temp = j.getSalary();
+                        j.setSalary(temp + i.getDistance() * 20000 * 0.3);
                     }
                 }
-                if (index != -1)
-               ldrivers.list.set(index,i.getDriver());
             }
         }
         ldrivers.rewriteData();
