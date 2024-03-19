@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 
 /**
@@ -51,10 +54,21 @@ public class Handle {
     }
     public boolean checkDrivingLicense(String license){
         boolean flag = false;
+//        if(!license.contains(",")){
+//            screen.alert("Each license must be separated by ','");
+//            return false;
+//        }
         String[] l = license.split(",");
+        for (int i = 0; i < l.length;i++){
+            l[i] = l[i].replaceAll(" ","");
+        }
+        ArrayList<String> listLicense = new ArrayList<>(Arrays.asList(l));
     for (String lValue : l) {
-        lValue = lValue.replaceAll("[\\s]","");
-        switch(lValue.trim()) {
+        if( listLicense.stream().filter(s -> s.equals(lValue)).count() > 1){
+            screen.alert("Driving license must distinct");
+            return flag;
+        }
+        switch(lValue) {
             case "A1":
                 flag = true;
                 break;
@@ -172,7 +186,7 @@ public class Handle {
 
     public boolean checkPhoneNumber(String phoneNumber){
         if (!phoneNumber.matches("0[0-9]{9}")){
-            screen.alert("Phone number only have number and 10 character");
+            screen.alert("Phone number only have 10 numbers and start with 0");
             return false;
         }else return true;
     }
@@ -222,9 +236,7 @@ public class Handle {
 
 //Person + Customer
     public static boolean handleNo(int no, int id){
-        if(no == id){
-            return true;
-        } else return false;
+        return no == id;
     }
 
 //Car
